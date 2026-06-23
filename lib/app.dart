@@ -14,6 +14,9 @@ import 'providers/announcement_provider.dart';
 import 'providers/hotline_provider.dart';
 import 'providers/office_provider.dart';
 
+import 'data/repositories/service_request_repository.dart';
+import 'providers/service_request_provider.dart';
+
 /// Root widget. Wires repositories -> providers -> router.
 /// Repositories are created once here and never touched outside
 /// this file and the providers that wrap them.
@@ -31,6 +34,10 @@ class BulanApp extends StatelessWidget {
         Provider(create: (_) => OfficeRepository()),
 
         // ChangeNotifier providers that screens actually listen to
+        ChangeNotifierProvider(
+          create: (ctx) =>
+              ServiceRequestProvider(ctx.read<ServiceRequestRepository>()),
+        ),
         ChangeNotifierProvider(
           create: (ctx) => ReportProvider(ctx.read<ReportRepository>()),
         ),

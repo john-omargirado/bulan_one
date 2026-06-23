@@ -9,6 +9,7 @@ import '../../features/report/report_screen.dart';
 import '../../features/report/report_form_screen.dart';
 import '../../features/profile/profile_screen.dart';
 import '../../features/hotlines/hotlines_screen.dart';
+import '../../features/services/service_detail_screen.dart';
 
 class AppRouter {
   AppRouter._();
@@ -34,6 +35,14 @@ class AppRouter {
               GoRoute(
                 path: '/services',
                 builder: (c, s) => const ServicesScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':serviceId',
+                    builder: (c, s) => ServiceDetailScreen(
+                      serviceId: s.pathParameters['serviceId']!,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -69,6 +78,7 @@ class AppRouter {
           ),
         ],
       ),
+
       // Routes outside the bottom-nav shell (full-screen, no tab bar)
       GoRoute(
         path: '/hotlines',
