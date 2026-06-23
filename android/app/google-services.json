@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "955187191914",
+    "project_id": "bulan-one-app-35366",
+    "storage_bucket": "bulan-one-app-35366.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955187191914:android:2753d81fb463cd81a52a13",
+        "android_client_info": {
+          "package_name": "com.example.bulan_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBes8XPQVYic3gjMakOLDe912A8UgoHyoo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
