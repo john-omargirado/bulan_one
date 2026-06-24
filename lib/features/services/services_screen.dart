@@ -103,10 +103,10 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 // No dedicated category-listing screen yet — tapping
                 // a category surfaces matching popular services for now.
                 onTap: () {
-                  setState(() {
-                    _query = '';
+                  if (_query.isNotEmpty) {
                     _searchController.clear();
-                  });
+                    setState(() => _query = '');
+                  }
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(

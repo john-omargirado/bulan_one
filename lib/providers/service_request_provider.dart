@@ -54,10 +54,25 @@ class ServiceRequestProvider extends ChangeNotifier {
         notes: notes,
         createdAt: DateTime.now(),
       );
-      await _repository.submit(request);
+
+      await _repository
+          .submit(request)
+          .timeout(
+            const Duration(seconds: 10),
+            onTimeout: () {
+              throw TimeoutException('Request submission timed out');
+            },
+          );
+
       _isSubmitting = false;
       notifyListeners();
       return true;
+    } on TimeoutException {
+      _isSubmitting = false;
+      _submitError =
+          'This is taking too long. Check your connection and try again.';
+      notifyListeners();
+      return false;
     } catch (e) {
       _isSubmitting = false;
       _submitError =

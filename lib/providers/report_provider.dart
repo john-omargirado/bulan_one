@@ -58,7 +58,16 @@ class ReportProvider extends ChangeNotifier {
     try {
       String? photoUrl;
       if (photo != null) {
-        photoUrl = await _repository.uploadPhoto(photo, _uid);
+        photoUrl = await _repository
+            .uploadPhoto(photo, _uid)
+            .timeout(
+              const Duration(
+                seconds: 20,
+              ), // photo upload can take longer than text
+              onTimeout: () {
+                throw TimeoutException('Photo upload timed out');
+              },
+            );
       }
 
       final report = Report(
@@ -72,10 +81,24 @@ class ReportProvider extends ChangeNotifier {
         createdAt: DateTime.now(),
       );
 
-      await _repository.submit(report);
+      await _repository
+          .submit(report)
+          .timeout(
+            const Duration(seconds: 10),
+            onTimeout: () {
+              throw TimeoutException('Report submission timed out');
+            },
+          );
+
       _isSubmitting = false;
       notifyListeners();
       return true;
+    } on TimeoutException {
+      _isSubmitting = false;
+      _submitError =
+          'This is taking too long. Check your connection and try again.';
+      notifyListeners();
+      return false;
     } catch (e) {
       _isSubmitting = false;
       _submitError =
