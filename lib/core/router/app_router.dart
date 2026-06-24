@@ -11,6 +11,8 @@ import '../../features/profile/profile_screen.dart';
 import '../../features/hotlines/hotlines_screen.dart';
 import '../../features/services/service_detail_screen.dart';
 
+import '../../features/services/my_requests_screen.dart';
+
 class AppRouter {
   AppRouter._();
 
@@ -36,6 +38,10 @@ class AppRouter {
                 path: '/services',
                 builder: (c, s) => const ServicesScreen(),
                 routes: [
+                  GoRoute(
+                    path: 'my-requests',
+                    builder: (c, s) => const MyRequestsScreen(),
+                  ),
                   GoRoute(
                     path: ':serviceId',
                     builder: (c, s) => ServiceDetailScreen(

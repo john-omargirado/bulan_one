@@ -34,7 +34,16 @@ class _ServicesScreenState extends State<ServicesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Services')),
+      appBar: AppBar(
+        title: const Text('Services'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.assignment_outlined),
+            tooltip: 'My Requests',
+            onPressed: () => context.push('/services/my-requests'),
+          ),
+        ],
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [

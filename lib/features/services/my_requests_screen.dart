@@ -1,28 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/utils/date_formatter.dart';
-import '../../data/models/report.dart';
-import '../../providers/report_provider.dart';
-import 'report_detail_screen.dart';
+import '../../data/models/service_request.dart';
+import '../../providers/service_request_provider.dart';
 
-class ReportScreen extends StatelessWidget {
-  const ReportScreen({super.key});
+class MyRequestsScreen extends StatelessWidget {
+  const MyRequestsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Reports')),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push('/report/new'),
-        icon: const Icon(Icons.add),
-        label: const Text('Report Issue'),
-      ),
-      body: Consumer<ReportProvider>(
+      appBar: AppBar(title: const Text('My Requests')),
+      body: Consumer<ServiceRequestProvider>(
         builder: (context, provider, _) {
-          if (provider.myReports.isEmpty) {
+          if (provider.myRequests.isEmpty) {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(24),
@@ -30,19 +23,19 @@ class ReportScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(
-                      Icons.campaign_outlined,
+                      Icons.assignment_outlined,
                       size: 56,
                       color: AppColors.textSecondary,
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      'No reports yet',
+                      'No requests yet',
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Tap "Report Issue" to flag flooding, road damage, '
-                      'or other community concerns.',
+                      'Requests you submit for permits, certificates, or '
+                      'other services will appear here.',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: AppColors.textSecondary),
                     ),
@@ -53,11 +46,11 @@ class ReportScreen extends StatelessWidget {
           }
 
           return ListView.separated(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
-            itemCount: provider.myReports.length,
+            padding: const EdgeInsets.all(16),
+            itemCount: provider.myRequests.length,
             separatorBuilder: (_, _) => const SizedBox(height: 8),
             itemBuilder: (context, index) =>
-                _ReportTile(report: provider.myReports[index]),
+                _RequestTile(request: provider.myRequests[index]),
           );
         },
       ),
@@ -65,18 +58,18 @@ class ReportScreen extends StatelessWidget {
   }
 }
 
-class _ReportTile extends StatelessWidget {
-  final Report report;
-
-  const _ReportTile({required this.report});
+class _RequestTile extends StatelessWidget {
+  final ServiceRequest request;
+  const _RequestTile({required this.request});
 
   Color _statusColor() {
-    switch (report.status) {
-      case ReportStatus.submitted:
+    switch (request.status) {
+      case RequestStatus.submitted:
         return AppColors.statusSubmitted;
-      case ReportStatus.inProgress:
+      case RequestStatus.processing:
         return AppColors.statusInProgress;
-      case ReportStatus.resolved:
+      case RequestStatus.ready:
+      case RequestStatus.completed:
         return AppColors.statusResolved;
     }
   }
@@ -85,15 +78,12 @@ class _ReportTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => ReportDetailScreen(report: report)),
-        ),
         title: Text(
-          report.category.label,
+          request.serviceName,
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         subtitle: Text(
-          '${report.barangay} • ${DateFormatter.toRelative(report.createdAt)}',
+          DateFormatter.toRelative(request.createdAt),
           style: const TextStyle(fontSize: 12),
         ),
         trailing: Container(
@@ -103,7 +93,7 @@ class _ReportTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(6),
           ),
           child: Text(
-            report.status.label,
+            request.status.label,
             style: TextStyle(
               color: _statusColor(),
               fontSize: 11,
