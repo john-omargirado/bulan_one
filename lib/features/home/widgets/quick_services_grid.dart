@@ -6,14 +6,19 @@ class QuickServicesGrid extends StatelessWidget {
   const QuickServicesGrid({super.key});
 
   static const _items = [
-    (Icons.description_outlined, 'Documents', AppColors.tileBlue),
-    (Icons.apartment, 'LGU Services', AppColors.tileGreen),
-    (Icons.receipt_long, 'Pay Bills', AppColors.tileAmber),
-    (Icons.event_available, 'Book Appointment', AppColors.tilePurple),
-    (Icons.directions_bus, 'Trips & Transport', AppColors.tileBlue),
-    (Icons.receipt, 'Taxes', AppColors.tileRed),
-    (Icons.local_hospital_outlined, 'Health Services', AppColors.tileGreen),
-    (Icons.school_outlined, 'Scholarship', AppColors.tileAmber),
+    (Icons.description_outlined, 'Documents', AppColors.tileBlue, true),
+    (Icons.apartment, 'LGU Services', AppColors.tileGreen, true),
+    (Icons.receipt_long, 'Pay Bills', AppColors.tileAmber, false),
+    (Icons.event_available, 'Book Appointment', AppColors.tilePurple, true),
+    (Icons.directions_bus, 'Trips & Transport', AppColors.tileBlue, false),
+    (Icons.receipt, 'Taxes', AppColors.tileRed, false),
+    (
+      Icons.local_hospital_outlined,
+      'Health Services',
+      AppColors.tileGreen,
+      false,
+    ),
+    (Icons.school_outlined, 'Scholarship', AppColors.tileAmber, false),
   ];
 
   @override
@@ -29,9 +34,17 @@ class QuickServicesGrid extends StatelessWidget {
       ),
       itemCount: _items.length,
       itemBuilder: (context, index) {
-        final (icon, label, color) = _items[index];
+        final (icon, label, color, isReady) = _items[index];
         return GestureDetector(
-          onTap: () => context.go('/services'),
+          onTap: () {
+            if (isReady) {
+              context.go('/services');
+            } else {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('$label is coming soon')));
+            }
+          },
           child: Column(
             children: [
               CircleAvatar(
