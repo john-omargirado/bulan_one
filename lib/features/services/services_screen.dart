@@ -109,19 +109,13 @@ class _ServicesScreenState extends State<ServicesScreen> {
               padding: const EdgeInsets.only(bottom: 8),
               child: CategoryTile(
                 category: category,
-                // No dedicated category-listing screen yet — tapping
-                // a category surfaces matching popular services for now.
                 onTap: () {
                   if (_query.isNotEmpty) {
                     _searchController.clear();
                     setState(() => _query = '');
                   }
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        '${category.name} category browsing coming soon',
-                      ),
-                    ),
+                  context.push(
+                    '/services/category/${Uri.encodeComponent(category.name)}',
                   );
                 },
               ),

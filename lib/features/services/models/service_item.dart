@@ -71,6 +71,50 @@ const List<ServiceItem> popularServices = [
     category: 'Government Services',
     requirements: ['Valid ID'],
   ),
+  ServiceItem(
+    id: 'health_consultation',
+    name: 'Health Consultation',
+    description: 'Book a consultation at the Rural Health Unit',
+    icon: 'favorite',
+    category: 'Health Services',
+    requirements: ['Valid ID'],
+  ),
+  ServiceItem(
+    id: 'vaccination_schedule',
+    name: 'Vaccination Schedule',
+    description: 'Check upcoming vaccination drives',
+    icon: 'favorite',
+    category: 'Health Services',
+    requirements: [],
+  ),
+  ServiceItem(
+    id: 'scholarship_application',
+    name: 'Scholarship Application',
+    description: 'Apply for LGU-funded scholarship programs',
+    icon: 'school',
+    category: 'Education Services',
+    requirements: [
+      'Certificate of enrollment',
+      'Valid ID',
+      'Income certificate',
+    ],
+  ),
+  ServiceItem(
+    id: 'transport_schedule',
+    name: 'Terminal Schedule',
+    description: 'Check bus and van terminal schedules',
+    icon: 'directions_bus',
+    category: 'Transport & Travel',
+    requirements: [],
+  ),
+  ServiceItem(
+    id: 'disaster_preparedness',
+    name: 'Disaster Preparedness Guide',
+    description: 'Safety tips and evacuation center info',
+    icon: 'shield',
+    category: 'Disaster & Safety',
+    requirements: [],
+  ),
 ];
 
 class ServiceCategory {

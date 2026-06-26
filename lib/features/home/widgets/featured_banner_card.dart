@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../shared/widgets/placeholder_image.dart';
 
 /// Static festival/event spotlight card, matching the mockup's
 /// "Padaraw Festival 2025" banner. Hardcoded for now — promote to
@@ -30,11 +31,10 @@ class FeaturedBannerCard extends StatelessWidget {
             borderRadius: const BorderRadius.horizontal(
               left: Radius.circular(14),
             ),
-            child: Image.network(
-              imageUrl,
+            child: PlaceholderImage(
+              imageUrl: imageUrl,
               width: 110,
               height: 130,
-              fit: BoxFit.cover,
             ),
           ),
           Expanded(

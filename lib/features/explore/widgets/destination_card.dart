@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_text_styles.dart';
+import '../../../shared/widgets/placeholder_image.dart';
 import '../models/destination.dart';
 
 class DestinationCard extends StatelessWidget {
@@ -16,7 +18,7 @@ class DestinationCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(14),
       child: Stack(
         children: [
-          Image.network(imageUrl, width: 160, height: 140, fit: BoxFit.cover),
+          PlaceholderImage(imageUrl: imageUrl, width: 160, height: 140),
           Positioned.fill(
             child: DecoratedBox(
               decoration: BoxDecoration(
@@ -38,16 +40,10 @@ class DestinationCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: const [
-                    Icon(Icons.location_on, color: Colors.white, size: 12),
-                  ],
-                ),
                 Text(
                   destination.name,
-                  style: const TextStyle(
+                  style: AppTextStyles.cardTitle.copyWith(
                     color: Colors.white,
-                    fontWeight: FontWeight.bold,
                     fontSize: 13,
                   ),
                   maxLines: 1,

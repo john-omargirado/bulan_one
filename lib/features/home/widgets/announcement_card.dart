@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_spacing.dart';
+import '../../../core/constants/app_text_styles.dart';
 import '../../../core/utils/date_formatter.dart';
 import '../../../data/models/announcement.dart';
 
@@ -23,46 +25,37 @@ class AnnouncementCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(AppSpacing.md),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.sm,
+                vertical: AppSpacing.xs,
+              ),
               decoration: BoxDecoration(
                 color: _tagColor(),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Text(
                 announcement.tag.toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: AppTextStyles.tinyBold,
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              announcement.title,
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(height: 4),
+            const SizedBox(height: AppSpacing.sm),
+            Text(announcement.title, style: AppTextStyles.cardTitle),
+            const SizedBox(height: AppSpacing.xs),
             Text(
               announcement.body,
-              style: const TextStyle(
-                color: AppColors.textSecondary,
-                fontSize: 13,
-              ),
+              style: AppTextStyles.caption,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             Text(
               DateFormatter.toDisplayDate(announcement.createdAt),
-              style: const TextStyle(
-                color: AppColors.textSecondary,
-                fontSize: 11,
-              ),
+              style: AppTextStyles.tiny,
             ),
           ],
         ),

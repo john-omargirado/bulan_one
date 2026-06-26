@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_text_styles.dart';
+import '../../../shared/widgets/placeholder_image.dart';
 import '../models/destination.dart';
 
 class DishCard extends StatelessWidget {
@@ -13,24 +15,15 @@ class DishCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ClipRRect(
+        PlaceholderImage(
+          imageUrl: imageUrl,
+          width: 130,
+          height: 90,
           borderRadius: BorderRadius.circular(12),
-          child: Image.network(
-            imageUrl,
-            width: 130,
-            height: 90,
-            fit: BoxFit.cover,
-          ),
         ),
         const SizedBox(height: 6),
-        Text(
-          dish.name,
-          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
-        ),
-        Text(
-          dish.description,
-          style: const TextStyle(fontSize: 10, color: Colors.grey),
-        ),
+        Text(dish.name, style: AppTextStyles.cardTitle.copyWith(fontSize: 12)),
+        Text(dish.description, style: AppTextStyles.tiny),
       ],
     );
   }

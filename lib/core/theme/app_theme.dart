@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
+import '../constants/app_text_styles.dart';
 
 class AppTheme {
   AppTheme._();
@@ -42,16 +43,10 @@ class AppTheme {
         ),
       ),
       textTheme: const TextTheme(
-        headlineSmall: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: AppColors.textPrimary,
-        ),
-        titleMedium: TextStyle(
-          fontWeight: FontWeight.w600,
-          color: AppColors.textPrimary,
-        ),
-        bodyMedium: TextStyle(color: AppColors.textPrimary),
-        bodySmall: TextStyle(color: AppColors.textSecondary),
+        headlineSmall: AppTextStyles.headline,
+        titleMedium: AppTextStyles.sectionTitle,
+        bodyMedium: AppTextStyles.body,
+        bodySmall: AppTextStyles.caption,
       ),
     );
   }

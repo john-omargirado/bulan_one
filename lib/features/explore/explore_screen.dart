@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_spacing.dart';
+import '../../core/constants/app_text_styles.dart';
 import 'models/destination.dart';
 import 'widgets/destination_card.dart';
 import 'widgets/dish_card.dart';
@@ -25,7 +26,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Explore Bulan')),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -33,16 +34,16 @@ class _ExploreScreenState extends State<ExploreScreen> {
               selected: _selected,
               onSelect: (f) => setState(() => _selected = f),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
 
             const _SectionHeader(title: 'Featured Destinations'),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
             if (_filtered.isEmpty)
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
                 child: Text(
                   'No destinations in this category yet.',
-                  style: TextStyle(color: AppColors.textSecondary),
+                  style: AppTextStyles.caption,
                 ),
               )
             else
@@ -51,35 +52,34 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: _filtered.length,
-                  separatorBuilder: (_, _) => const SizedBox(width: 12),
+                  separatorBuilder: (_, _) =>
+                      const SizedBox(width: AppSpacing.md),
                   itemBuilder: (context, i) =>
                       DestinationCard(destination: _filtered[i]),
                 ),
               ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSpacing.xl),
 
             const _SectionHeader(title: 'Local Food & Delicacies'),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
             SizedBox(
               height: 130,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: bulanDishes.length,
-                separatorBuilder: (_, _) => const SizedBox(width: 16),
+                separatorBuilder: (_, _) =>
+                    const SizedBox(width: AppSpacing.lg),
                 itemBuilder: (context, i) => DishCard(dish: bulanDishes[i]),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSpacing.xl),
 
-            const Center(
+            Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                 child: Text(
                   'Itineraries & guides coming soon',
-                  style: TextStyle(
-                    color: AppColors.textSecondary,
-                    fontSize: 12,
-                  ),
+                  style: AppTextStyles.caption,
                 ),
               ),
             ),
@@ -96,6 +96,6 @@ class _SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(title, style: Theme.of(context).textTheme.titleMedium);
+    return Text(title, style: AppTextStyles.sectionTitle);
   }
 }
