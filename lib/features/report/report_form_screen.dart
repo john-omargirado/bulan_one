@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_spacing.dart';
+import '../../core/constants/app_text_styles.dart';
 import '../../data/models/report.dart';
 import '../../providers/report_provider.dart';
 import 'widgets/category_picker.dart';
@@ -67,71 +69,78 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Report an Issue')),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Category',
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: AppTextStyles.sectionTitle.copyWith(fontSize: 15),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             CategoryPicker(
               selected: _category,
               onSelect: (c) => setState(() => _category = c),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.lg),
 
-            const Text(
+            Text(
               'Barangay',
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: AppTextStyles.sectionTitle.copyWith(fontSize: 15),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             TextField(
               controller: _barangayController,
-              decoration: const InputDecoration(
+              style: AppTextStyles.body,
+              decoration: InputDecoration(
                 hintText: 'e.g. Brgy. Bacay',
+                hintStyle: AppTextStyles.caption,
                 filled: true,
                 fillColor: AppColors.surface,
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.lg),
 
-            const Text(
+            Text(
               'Description',
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: AppTextStyles.sectionTitle.copyWith(fontSize: 15),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             TextField(
               controller: _descriptionController,
               maxLines: 4,
-              decoration: const InputDecoration(
+              style: AppTextStyles.body,
+              decoration: InputDecoration(
                 hintText: 'Describe the issue...',
+                hintStyle: AppTextStyles.caption,
                 filled: true,
                 fillColor: AppColors.surface,
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.lg),
 
-            const Text('Photo', style: TextStyle(fontWeight: FontWeight.w600)),
-            const SizedBox(height: 8),
+            Text(
+              'Photo',
+              style: AppTextStyles.sectionTitle.copyWith(fontSize: 15),
+            ),
+            const SizedBox(height: AppSpacing.sm),
             PhotoPickerField(
               photo: _photo,
               onChanged: (file) => setState(() => _photo = file),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.lg),
 
-            const Text(
+            Text(
               'Location',
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: AppTextStyles.sectionTitle.copyWith(fontSize: 15),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             LocationPickerField(
               onChanged: (loc) => setState(() => _location = loc),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppSpacing.xxl),
 
             AnimatedBuilder(
               animation: Listenable.merge([

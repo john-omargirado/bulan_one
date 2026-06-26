@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_spacing.dart';
+import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/date_formatter.dart';
 import '../../data/models/report.dart';
 import '../../providers/report_provider.dart';
@@ -25,7 +27,7 @@ class ReportScreen extends StatelessWidget {
           if (provider.myReports.isEmpty) {
             return Center(
               child: Padding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(AppSpacing.xl),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -34,17 +36,14 @@ class ReportScreen extends StatelessWidget {
                       size: 56,
                       color: AppColors.textSecondary,
                     ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'No reports yet',
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
+                    const SizedBox(height: AppSpacing.lg),
+                    Text('No reports yet', style: AppTextStyles.cardTitle),
+                    const SizedBox(height: AppSpacing.sm),
+                    Text(
                       'Tap "Report Issue" to flag flooding, road damage, '
                       'or other community concerns.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: AppColors.textSecondary),
+                      style: AppTextStyles.caption,
                     ),
                   ],
                 ),
@@ -53,9 +52,14 @@ class ReportScreen extends StatelessWidget {
           }
 
           return ListView.separated(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              AppSpacing.lg,
+              AppSpacing.lg,
+              80,
+            ),
             itemCount: provider.myReports.length,
-            separatorBuilder: (_, _) => const SizedBox(height: 8),
+            separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.sm),
             itemBuilder: (context, index) =>
                 _ReportTile(report: provider.myReports[index]),
           );
@@ -88,27 +92,23 @@ class _ReportTile extends StatelessWidget {
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(builder: (_) => ReportDetailScreen(report: report)),
         ),
-        title: Text(
-          report.category.label,
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
+        title: Text(report.category.label, style: AppTextStyles.cardTitle),
         subtitle: Text(
           '${report.barangay} • ${DateFormatter.toRelative(report.createdAt)}',
-          style: const TextStyle(fontSize: 12),
+          style: AppTextStyles.caption,
         ),
         trailing: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.sm,
+            vertical: AppSpacing.xs,
+          ),
           decoration: BoxDecoration(
             color: _statusColor().withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(6),
           ),
           child: Text(
             report.status.label,
-            style: TextStyle(
-              color: _statusColor(),
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-            ),
+            style: AppTextStyles.tinyBold.copyWith(color: _statusColor()),
           ),
         ),
       ),

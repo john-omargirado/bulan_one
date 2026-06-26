@@ -1,7 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import '../../../core/constants/app_colors.dart';
-import 'dart:async';
+import '../../../core/constants/app_text_styles.dart';
 
 class LocationResult {
   final double lat;
@@ -50,9 +50,8 @@ class _LocationPickerFieldState extends State<LocationPickerField> {
             ),
           ).timeout(
             const Duration(seconds: 10),
-            onTimeout: () {
-              throw TimeoutException('Location request timed out');
-            },
+            onTimeout: () =>
+                throw TimeoutException('Location request timed out'),
           );
 
       final result = LocationResult(position.latitude, position.longitude);
@@ -64,7 +63,7 @@ class _LocationPickerFieldState extends State<LocationPickerField> {
     } on TimeoutException {
       setState(() {
         _error =
-            'Location request took too long. Try again, or check the emulator\'s GPS setting.';
+            'Location request took too long. Try again, or check GPS settings.';
         _isLoading = false;
       });
     } catch (_) {
@@ -98,10 +97,7 @@ class _LocationPickerFieldState extends State<LocationPickerField> {
             padding: const EdgeInsets.only(top: 6),
             child: Text(
               '${_result!.lat.toStringAsFixed(5)}, ${_result!.lng.toStringAsFixed(5)}',
-              style: const TextStyle(
-                color: AppColors.textSecondary,
-                fontSize: 12,
-              ),
+              style: AppTextStyles.caption,
             ),
           ),
         if (_error != null)
@@ -109,7 +105,7 @@ class _LocationPickerFieldState extends State<LocationPickerField> {
             padding: const EdgeInsets.only(top: 6),
             child: Text(
               _error!,
-              style: const TextStyle(color: Colors.red, fontSize: 12),
+              style: AppTextStyles.caption.copyWith(color: Colors.red),
             ),
           ),
       ],

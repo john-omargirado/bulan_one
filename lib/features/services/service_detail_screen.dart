@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_spacing.dart';
+import '../../core/constants/app_text_styles.dart';
 import '../../providers/service_request_provider.dart';
 import 'models/service_item.dart';
 import 'widgets/service_icon.dart';
@@ -66,7 +68,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
     if (service == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Service')),
-        body: const Center(child: Text('Service not found.')),
+        body: Center(
+          child: Text('Service not found.', style: AppTextStyles.body),
+        ),
       );
     }
 
@@ -75,7 +79,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(service.name)),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -88,18 +92,18 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                 size: 28,
               ),
             ),
-            const SizedBox(height: 16),
-            Text(service.description, style: const TextStyle(fontSize: 14)),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSpacing.lg),
+            Text(service.description, style: AppTextStyles.body),
+            const SizedBox(height: AppSpacing.xl),
 
-            const Text(
+            Text(
               'Requirements',
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: AppTextStyles.sectionTitle.copyWith(fontSize: 15),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             ...service.requirements.map(
               (req) => Padding(
-                padding: const EdgeInsets.only(bottom: 6),
+                padding: const EdgeInsets.only(bottom: AppSpacing.sm),
                 child: Row(
                   children: [
                     const Icon(
@@ -107,30 +111,37 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                       size: 16,
                       color: AppColors.statusResolved,
                     ),
-                    const SizedBox(width: 8),
-                    Text(req, style: const TextStyle(fontSize: 13)),
+                    const SizedBox(width: AppSpacing.sm),
+                    Text(
+                      req,
+                      style: AppTextStyles.caption.copyWith(
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSpacing.xl),
 
-            const Text(
+            Text(
               'Additional notes (optional)',
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: AppTextStyles.sectionTitle.copyWith(fontSize: 15),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             TextField(
               controller: _notesController,
               maxLines: 3,
-              decoration: const InputDecoration(
+              style: AppTextStyles.body,
+              decoration: InputDecoration(
                 hintText: 'Anything we should know about your request?',
+                hintStyle: AppTextStyles.caption,
                 filled: true,
                 fillColor: AppColors.surface,
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSpacing.xl),
 
             ElevatedButton(
               onPressed: isSubmitting ? null : () => _submit(service),
@@ -145,11 +156,11 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                     )
                   : const Text('Submit Request'),
             ),
-            const SizedBox(height: 8),
-            const Text(
+            const SizedBox(height: AppSpacing.sm),
+            Text(
               'Note: requirements above are listed for reference. Bring '
               'original documents when visiting the LGU office for processing.',
-              style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
+              style: AppTextStyles.tiny,
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_text_styles.dart';
 import '../../../data/models/report.dart';
 
 class CategoryPicker extends StatelessWidget {
@@ -24,7 +25,7 @@ class CategoryPicker extends StatelessWidget {
           selected: isSelected,
           onSelected: (_) => onSelect(category),
           selectedColor: AppColors.primaryNavy,
-          labelStyle: TextStyle(
+          labelStyle: AppTextStyles.caption.copyWith(
             color: isSelected ? Colors.white : AppColors.textPrimary,
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
           ),

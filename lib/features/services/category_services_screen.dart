@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_spacing.dart';
+import '../../core/constants/app_text_styles.dart';
 import 'models/service_item.dart';
 import 'widgets/popular_service_card.dart';
 
@@ -22,7 +24,7 @@ class CategoryServicesScreen extends StatelessWidget {
       body: services.isEmpty
           ? Center(
               child: Padding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(AppSpacing.xl),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -31,22 +33,22 @@ class CategoryServicesScreen extends StatelessWidget {
                       size: 48,
                       color: AppColors.textSecondary,
                     ),
-                    const SizedBox(height: 12),
-                    const Text(
+                    const SizedBox(height: AppSpacing.md),
+                    Text(
                       'No services listed in this category yet.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: AppColors.textSecondary),
+                      style: AppTextStyles.caption,
                     ),
                   ],
                 ),
               ),
             )
           : GridView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppSpacing.lg),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
+                mainAxisSpacing: AppSpacing.md,
+                crossAxisSpacing: AppSpacing.md,
                 childAspectRatio: 1.1,
               ),
               itemCount: services.length,

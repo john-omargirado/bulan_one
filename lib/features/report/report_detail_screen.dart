@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_spacing.dart';
+import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/date_formatter.dart';
 import '../../data/models/report.dart';
 
@@ -54,7 +56,7 @@ class ReportDetailScreen extends StatelessWidget {
               ),
 
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppSpacing.lg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -62,7 +64,7 @@ class ReportDetailScreen extends StatelessWidget {
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
+                          horizontal: AppSpacing.sm,
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
@@ -71,9 +73,8 @@ class ReportDetailScreen extends StatelessWidget {
                         ),
                         child: Text(
                           report.status.label,
-                          style: TextStyle(
+                          style: AppTextStyles.tinyBold.copyWith(
                             color: _statusColor(),
-                            fontWeight: FontWeight.w600,
                             fontSize: 13,
                           ),
                         ),
@@ -81,36 +82,33 @@ class ReportDetailScreen extends StatelessWidget {
                       const Spacer(),
                       Text(
                         DateFormatter.toDisplayDate(report.createdAt),
-                        style: const TextStyle(
-                          color: AppColors.textSecondary,
-                          fontSize: 12,
-                        ),
+                        style: AppTextStyles.caption,
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xl),
 
-                  const Text(
+                  Text(
                     'Barangay',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    style: AppTextStyles.sectionTitle.copyWith(fontSize: 15),
                   ),
-                  const SizedBox(height: 4),
-                  Text(report.barangay),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(report.barangay, style: AppTextStyles.body),
+                  const SizedBox(height: AppSpacing.lg),
 
-                  const Text(
+                  Text(
                     'Description',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    style: AppTextStyles.sectionTitle.copyWith(fontSize: 15),
                   ),
-                  const SizedBox(height: 4),
-                  Text(report.description),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(report.description, style: AppTextStyles.body),
+                  const SizedBox(height: AppSpacing.xl),
 
-                  const Text(
+                  Text(
                     'Location',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    style: AppTextStyles.sectionTitle.copyWith(fontSize: 15),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.sm),
                   OutlinedButton.icon(
                     onPressed: _openInMaps,
                     icon: const Icon(Icons.map_outlined),
@@ -119,27 +117,26 @@ class ReportDetailScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xl),
                   Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(AppSpacing.md),
                     decoration: BoxDecoration(
                       color: AppColors.tileBlue,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Row(
+                    child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.info_outline,
                           size: 18,
                           color: AppColors.primaryNavy,
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: AppSpacing.sm),
                         Expanded(
                           child: Text(
                             'Status updates are reviewed by LGU staff. '
                             'This may take a few days depending on the issue.',
-                            style: TextStyle(
-                              fontSize: 12,
+                            style: AppTextStyles.caption.copyWith(
                               color: AppColors.primaryNavy,
                             ),
                           ),

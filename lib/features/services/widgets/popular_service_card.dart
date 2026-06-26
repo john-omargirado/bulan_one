@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_spacing.dart';
+import '../../../core/constants/app_text_styles.dart';
 import '../models/service_item.dart';
 import 'service_icon.dart';
 
@@ -19,7 +21,7 @@ class PopularServiceCard extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(14),
       child: Container(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(14),
@@ -44,18 +46,15 @@ class PopularServiceCard extends StatelessWidget {
                 size: 20,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: AppSpacing.sm),
             Text(
               service.name,
-              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+              style: AppTextStyles.cardTitle.copyWith(fontSize: 13),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: AppSpacing.xs),
             Text(
               service.description,
-              style: const TextStyle(
-                fontSize: 11,
-                color: AppColors.textSecondary,
-              ),
+              style: AppTextStyles.tiny,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),

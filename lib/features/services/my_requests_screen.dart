@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_spacing.dart';
+import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/date_formatter.dart';
 import '../../data/models/service_request.dart';
 import '../../providers/service_request_provider.dart';
@@ -18,7 +20,7 @@ class MyRequestsScreen extends StatelessWidget {
           if (provider.myRequests.isEmpty) {
             return Center(
               child: Padding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(AppSpacing.xl),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -27,17 +29,14 @@ class MyRequestsScreen extends StatelessWidget {
                       size: 56,
                       color: AppColors.textSecondary,
                     ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'No requests yet',
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
+                    const SizedBox(height: AppSpacing.lg),
+                    Text('No requests yet', style: AppTextStyles.cardTitle),
+                    const SizedBox(height: AppSpacing.sm),
+                    Text(
                       'Requests you submit for permits, certificates, or '
                       'other services will appear here.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: AppColors.textSecondary),
+                      style: AppTextStyles.caption,
                     ),
                   ],
                 ),
@@ -46,9 +45,9 @@ class MyRequestsScreen extends StatelessWidget {
           }
 
           return ListView.separated(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(AppSpacing.lg),
             itemCount: provider.myRequests.length,
-            separatorBuilder: (_, _) => const SizedBox(height: 8),
+            separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.sm),
             itemBuilder: (context, index) =>
                 _RequestTile(request: provider.myRequests[index]),
           );
@@ -78,27 +77,23 @@ class _RequestTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text(
-          request.serviceName,
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
+        title: Text(request.serviceName, style: AppTextStyles.cardTitle),
         subtitle: Text(
           DateFormatter.toRelative(request.createdAt),
-          style: const TextStyle(fontSize: 12),
+          style: AppTextStyles.caption,
         ),
         trailing: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.sm,
+            vertical: AppSpacing.xs,
+          ),
           decoration: BoxDecoration(
             color: _statusColor().withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(6),
           ),
           child: Text(
             request.status.label,
-            style: TextStyle(
-              color: _statusColor(),
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-            ),
+            style: AppTextStyles.tinyBold.copyWith(color: _statusColor()),
           ),
         ),
       ),

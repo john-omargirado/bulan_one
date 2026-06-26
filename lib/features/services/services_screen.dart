@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_spacing.dart';
+import '../../core/constants/app_text_styles.dart';
 import 'models/service_item.dart';
 import 'widgets/popular_service_card.dart';
 import 'widgets/category_tile.dart';
@@ -45,13 +47,15 @@ class _ServicesScreenState extends State<ServicesScreen> {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         children: [
           TextField(
             controller: _searchController,
             onChanged: (value) => setState(() => _query = value),
+            style: AppTextStyles.body,
             decoration: InputDecoration(
               hintText: 'Search services...',
+              hintStyle: AppTextStyles.caption,
               prefixIcon: const Icon(Icons.search),
               filled: true,
               fillColor: AppColors.surface,
@@ -61,20 +65,17 @@ class _ServicesScreenState extends State<ServicesScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: AppSpacing.xl),
 
-          Text(
-            'Popular Services',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 12),
+          Text('Popular Services', style: AppTextStyles.sectionTitle),
+          const SizedBox(height: AppSpacing.md),
 
           if (_filteredServices.isEmpty)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
               child: Text(
                 'No matching services.',
-                style: TextStyle(color: AppColors.textSecondary),
+                style: AppTextStyles.caption,
               ),
             )
           else
@@ -83,8 +84,8 @@ class _ServicesScreenState extends State<ServicesScreen> {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
+                mainAxisSpacing: AppSpacing.md,
+                crossAxisSpacing: AppSpacing.md,
                 childAspectRatio: 1.1,
               ),
               itemCount: _filteredServices.length,
@@ -97,16 +98,13 @@ class _ServicesScreenState extends State<ServicesScreen> {
               },
             ),
 
-          const SizedBox(height: 24),
-          Text(
-            'Services by Category',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.xl),
+          Text('Services by Category', style: AppTextStyles.sectionTitle),
+          const SizedBox(height: AppSpacing.md),
 
           ...serviceCategories.map(
             (category) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
               child: CategoryTile(
                 category: category,
                 onTap: () {
