@@ -60,10 +60,12 @@ const List<ServiceItem> popularServices = [
   ServiceItem(
     id: 'real_property_tax',
     name: 'Real Property Tax',
-    description: 'View and pay your real property tax',
+    description:
+        'Check your tax declaration status; visit the Treasurer\'s Office to pay',
     icon: 'home_work',
     category: 'Government Services',
-    requirements: ['Tax declaration number', 'Valid ID'],
+    requirements: [],
+    isInfoOnly: true,
   ),
   ServiceItem(
     id: 'appointment_booking',
@@ -196,7 +198,7 @@ const List<ServiceCategory> serviceCategories = [
     name: 'Government Services',
     description: 'Permits, clearances, certificates and more',
     icon: 'account_balance',
-    serviceCount: 12,
+    serviceCount: 6,
   ),
   ServiceCategory(
     name: 'Health Services',
