@@ -3,11 +3,13 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_spacing.dart';
 
-enum _Dest { services, transportCategory, transportMap, comingSoon }
+enum _Dest { services, categoryPage, transportMap, comingSoon }
 
 class QuickServicesGrid extends StatelessWidget {
   const QuickServicesGrid({super.key});
 
+  // The 6th element is the category name, only used when dest is
+  // _Dest.categoryPage. Empty string everywhere else.
   static const _items = [
     (
       Icons.description_outlined,
@@ -15,6 +17,7 @@ class QuickServicesGrid extends StatelessWidget {
       AppColors.tileBlue,
       AppColors.iconBlue,
       _Dest.services,
+      '',
     ),
     (
       Icons.apartment,
@@ -22,6 +25,7 @@ class QuickServicesGrid extends StatelessWidget {
       AppColors.tileGreen,
       AppColors.iconGreen,
       _Dest.services,
+      '',
     ),
     (
       Icons.receipt_long,
@@ -29,6 +33,7 @@ class QuickServicesGrid extends StatelessWidget {
       AppColors.tileAmber,
       AppColors.iconAmber,
       _Dest.comingSoon,
+      '',
     ),
     (
       Icons.event_available,
@@ -36,13 +41,15 @@ class QuickServicesGrid extends StatelessWidget {
       AppColors.tilePurple,
       AppColors.iconPurple,
       _Dest.services,
+      '',
     ),
     (
       Icons.directions_bus,
       'Trips & Transport',
       AppColors.tileBlue,
       AppColors.iconBlue,
-      _Dest.transportCategory,
+      _Dest.transportMap,
+      '',
     ),
     (
       Icons.receipt,
@@ -50,13 +57,15 @@ class QuickServicesGrid extends StatelessWidget {
       AppColors.tileRed,
       AppColors.iconRed,
       _Dest.comingSoon,
+      '',
     ),
     (
       Icons.local_hospital_outlined,
       'Health Services',
       AppColors.tileGreen,
       AppColors.iconGreen,
-      _Dest.comingSoon,
+      _Dest.categoryPage,
+      'Health Services',
     ),
     (
       Icons.school_outlined,
@@ -64,6 +73,7 @@ class QuickServicesGrid extends StatelessWidget {
       AppColors.tileAmber,
       AppColors.iconAmber,
       _Dest.comingSoon,
+      '',
     ),
   ];
 
@@ -80,14 +90,17 @@ class QuickServicesGrid extends StatelessWidget {
       ),
       itemCount: _items.length,
       itemBuilder: (context, index) {
-        final (icon, label, bgColor, iconColor, dest) = _items[index];
+        final (icon, label, bgColor, iconColor, dest, categoryName) =
+            _items[index];
         return GestureDetector(
           onTap: () {
             switch (dest) {
               case _Dest.services:
                 context.go('/services');
-              case _Dest.transportCategory:
-                context.push('/services/transport');
+              case _Dest.categoryPage:
+                context.push(
+                  '/services/category/${Uri.encodeComponent(categoryName)}',
+                );
               case _Dest.transportMap:
                 context.push('/services/transport');
               case _Dest.comingSoon:

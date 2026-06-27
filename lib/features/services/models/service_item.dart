@@ -88,6 +88,23 @@ const List<ServiceItem> popularServices = [
     icon: 'favorite',
     category: 'Health Services',
     requirements: [],
+    isInfoOnly: true,
+  ),
+  ServiceItem(
+    id: 'maternal_care',
+    name: 'Maternal & Child Care',
+    description: 'Prenatal checkups and child immunization records',
+    icon: 'favorite',
+    category: 'Health Services',
+    requirements: ['Valid ID', 'Previous medical records (if any)'],
+  ),
+  ServiceItem(
+    id: 'medicine_assistance',
+    name: 'Medicine Assistance Program',
+    description: 'Request subsidized medicines for qualified residents',
+    icon: 'favorite',
+    category: 'Health Services',
+    requirements: ['Valid ID', 'Proof of residency', 'Doctor\'s prescription'],
   ),
   ServiceItem(
     id: 'scholarship_application',
@@ -136,7 +153,7 @@ const List<ServiceCategory> serviceCategories = [
     name: 'Health Services',
     description: 'Health programs, assistance and appointments',
     icon: 'favorite',
-    serviceCount: 8,
+    serviceCount: 4,
   ),
   ServiceCategory(
     name: 'Education Services',
