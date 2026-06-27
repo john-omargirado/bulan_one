@@ -73,11 +73,22 @@ const announcements = [
     },
 ];
 
+const notifications = [
+    {
+        title: 'Welcome to Bulan One App',
+        body: 'Report issues, request services, and stay updated on Bulan news \u2014 all in one place.',
+    },
+    {
+        title: 'Padaraw Festival is coming',
+        body: 'Mark your calendars \u2014 Padaraw Festival 2026 starts May 30!',
+    },
+];
+
 async function seedCollection(name, docs) {
     const batch = db.batch();
     docs.forEach((doc) => {
         const ref = db.collection(name).doc();
-        const data = name === 'announcements'
+        const data = name === 'announcements' || name === 'notifications'
             ? { ...doc, createdAt: FieldValue.serverTimestamp() }
             : doc;
         batch.set(ref, data);
@@ -90,6 +101,7 @@ async function main() {
     await seedCollection('hotlines', hotlines);
     await seedCollection('offices', offices);
     await seedCollection('announcements', announcements);
+    await seedCollection('notifications', notifications);
     console.log('Done.');
     process.exit(0);
 }

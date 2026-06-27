@@ -11,6 +11,8 @@ import 'widgets/emergency_hotline_card.dart';
 import 'widgets/quick_services_grid.dart';
 import 'widgets/featured_banner_card.dart';
 import 'widgets/announcement_card.dart';
+import '../explore/models/destination.dart';
+import '../explore/widgets/destination_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -35,6 +37,24 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: AppSpacing.xl),
                     const QuickServicesGrid(),
                     const SizedBox(height: AppSpacing.xl),
+                    _SectionHeader(
+                      title: 'Explore Bulan',
+                      onViewAll: () => context.go('/explore'),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    SizedBox(
+                      height: 140,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: bulanDestinations.length,
+                        separatorBuilder: (_, _) =>
+                            const SizedBox(width: AppSpacing.md),
+                        itemBuilder: (context, i) =>
+                            DestinationCard(destination: bulanDestinations[i]),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.xl),
+
                     const FeaturedBannerCard(),
                     const SizedBox(height: AppSpacing.xl),
                     _SectionHeader(

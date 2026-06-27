@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
+import 'package:provider/provider.dart';
+import '../../../providers/notification_provider.dart';
+import '../notifications_screen.dart';
 
 /// Top hero banner with background image + gradient overlay.
 ///
@@ -105,19 +108,51 @@ class HeroBanner extends StatelessWidget {
           Positioned(
             top: 12,
             right: 12,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.6),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: const Text(
-                'SAMPLE PHOTO',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 9,
-                  fontWeight: FontWeight.bold,
-                ),
+            child: SafeArea(
+              child: Consumer<NotificationProvider>(
+                builder: (context, provider, _) {
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.notifications_outlined,
+                          color: Colors.white,
+                        ),
+                        onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const NotificationsScreen(),
+                          ),
+                        ),
+                      ),
+                      if (provider.unreadCount > 0)
+                        Positioned(
+                          top: 6,
+                          right: 6,
+                          child: Container(
+                            padding: const EdgeInsets.all(3),
+                            decoration: const BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 16,
+                              minHeight: 16,
+                            ),
+                            child: Text(
+                              '${provider.unreadCount}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                },
               ),
             ),
           ),

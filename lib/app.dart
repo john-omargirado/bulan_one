@@ -8,11 +8,13 @@ import 'data/repositories/report_repository.dart';
 import 'data/repositories/announcement_repository.dart';
 import 'data/repositories/hotline_repository.dart';
 import 'data/repositories/office_repository.dart';
+import 'data/repositories/notification_repository.dart';
 
 import 'providers/report_provider.dart';
 import 'providers/announcement_provider.dart';
 import 'providers/hotline_provider.dart';
 import 'providers/office_provider.dart';
+import 'providers/notification_provider.dart';
 
 import 'data/repositories/service_request_repository.dart';
 import 'providers/service_request_provider.dart';
@@ -32,10 +34,16 @@ class BulanApp extends StatelessWidget {
         Provider(create: (_) => AnnouncementRepository()),
         Provider(create: (_) => HotlineRepository()),
         Provider(create: (_) => OfficeRepository()),
+        Provider(create: (_) => NotificationRepository()),
+
         Provider(
           create: (_) => ServiceRequestRepository(),
         ), // <-- ADD THIS LINE
         // ChangeNotifier providers that screens actually listen to
+        ChangeNotifierProvider(
+          create: (ctx) =>
+              NotificationProvider(ctx.read<NotificationRepository>()),
+        ),
         ChangeNotifierProvider(
           create: (ctx) => ReportProvider(ctx.read<ReportRepository>()),
         ),
