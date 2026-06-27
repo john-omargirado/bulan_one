@@ -5,19 +5,22 @@ import '../../core/constants/app_spacing.dart';
 import '../../features/home/notifications_screen.dart';
 import '../../providers/notification_provider.dart';
 
-/// Shared photo-backed header used by Explore and Services, matching
-/// the style of Home's hero banner. NOTE: imageUrl is a placeholder
+/// Shared photo-backed header used across multiple screens (Explore,
+/// Services, Report, Profile, Hotlines, My Requests), matching the
+/// style of Home's hero banner. NOTE: imageUrl is a placeholder
 /// (Lorem Picsum) \u2014 replace with a real photo before presenting.
 class PageHeroBanner extends StatelessWidget {
   final String title;
   final String subtitle;
   final String imageSeed;
+  final bool showBackButton;
 
   const PageHeroBanner({
     super.key,
     required this.title,
     required this.subtitle,
     required this.imageSeed,
+    this.showBackButton = false,
   });
 
   @override
@@ -82,9 +85,23 @@ class PageHeroBanner extends StatelessWidget {
             ),
           ),
 
+          // Back button \u2014 only shown on screens reached via tap-through
+          // (Hotlines, My Requests), not on bottom-nav tab roots.
+          if (showBackButton)
+            Positioned(
+              top: 4,
+              left: 4,
+              child: SafeArea(
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
+            ),
+
           // SAMPLE PHOTO badge \u2014 same convention as Home's hero.
           Positioned(
-            top: 8,
+            top: showBackButton ? 52 : 8,
             left: 8,
             child: SafeArea(
               child: Container(

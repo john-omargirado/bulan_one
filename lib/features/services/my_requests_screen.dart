@@ -7,6 +7,7 @@ import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/date_formatter.dart';
 import '../../data/models/service_request.dart';
 import '../../providers/service_request_provider.dart';
+import '../../shared/widgets/page_hero_banner.dart';
 
 class MyRequestsScreen extends StatelessWidget {
   const MyRequestsScreen({super.key});
@@ -14,44 +15,62 @@ class MyRequestsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Requests')),
-      body: Consumer<ServiceRequestProvider>(
-        builder: (context, provider, _) {
-          if (provider.myRequests.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.xl),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.assignment_outlined,
-                      size: 56,
-                      color: AppColors.textSecondary,
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
-                    Text('No requests yet', style: AppTextStyles.cardTitle),
-                    const SizedBox(height: AppSpacing.sm),
-                    Text(
-                      'Requests you submit for permits, certificates, or '
-                      'other services will appear here.',
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.caption,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
+      body: SafeArea(
+        top: false,
+        child: Column(
+          children: [
+            const PageHeroBanner(
+              title: 'My Requests',
+              subtitle: 'Track the status of your service requests.',
+              imageSeed: 'bulan-myrequests-hero',
+              showBackButton: true,
+            ),
+            Expanded(
+              child: Consumer<ServiceRequestProvider>(
+                builder: (context, provider, _) {
+                  if (provider.myRequests.isEmpty) {
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(AppSpacing.xl),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.assignment_outlined,
+                              size: 56,
+                              color: AppColors.textSecondary,
+                            ),
+                            const SizedBox(height: AppSpacing.lg),
+                            Text(
+                              'No requests yet',
+                              style: AppTextStyles.cardTitle,
+                            ),
+                            const SizedBox(height: AppSpacing.sm),
+                            Text(
+                              'Requests you submit for permits, certificates, or '
+                              'other services will appear here.',
+                              textAlign: TextAlign.center,
+                              style: AppTextStyles.caption,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
 
-          return ListView.separated(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            itemCount: provider.myRequests.length,
-            separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.sm),
-            itemBuilder: (context, index) =>
-                _RequestTile(request: provider.myRequests[index]),
-          );
-        },
+                  return ListView.separated(
+                    padding: const EdgeInsets.all(AppSpacing.lg),
+                    itemCount: provider.myRequests.length,
+                    separatorBuilder: (_, _) =>
+                        const SizedBox(height: AppSpacing.sm),
+                    itemBuilder: (context, index) =>
+                        _RequestTile(request: provider.myRequests[index]),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
