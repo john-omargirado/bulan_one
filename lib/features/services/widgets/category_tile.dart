@@ -17,10 +17,10 @@ class CategoryTile extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         leading: CircleAvatar(
-          backgroundColor: AppColors.tileBlue,
+          backgroundColor: AppColors.categoryTileColor(category.name),
           child: Icon(
             serviceIconFor(category.icon),
-            color: AppColors.primaryNavy,
+            color: AppColors.categoryColor(category.name),
           ),
         ),
         title: Text(category.name, style: AppTextStyles.cardTitle),
@@ -31,13 +31,13 @@ class CategoryTile extends StatelessWidget {
             vertical: AppSpacing.xs,
           ),
           decoration: BoxDecoration(
-            color: AppColors.tileBlue,
+            color: AppColors.categoryTileColor(category.name),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
             '${category.serviceCount} Services',
             style: AppTextStyles.tinyBold.copyWith(
-              color: AppColors.primaryNavy,
+              color: AppColors.categoryColor(category.name),
             ),
           ),
         ),

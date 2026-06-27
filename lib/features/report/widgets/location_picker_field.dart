@@ -68,7 +68,7 @@ class _LocationPickerFieldState extends State<LocationPickerField> {
       });
     } catch (_) {
       setState(() {
-        _error = 'Could not get your location. Make sure GPS is enabled.';
+        _error = "Couldn't get your location. Check that GPS is turned on.";
         _isLoading = false;
       });
     }

@@ -96,13 +96,13 @@ class ReportProvider extends ChangeNotifier {
     } on TimeoutException {
       _isSubmitting = false;
       _submitError =
-          'This is taking too long. Check your connection and try again.';
+          "Taking too long to respond. Check your connection and try again.";
       notifyListeners();
       return false;
     } catch (e) {
       _isSubmitting = false;
       _submitError =
-          'Could not submit report. Please check your connection and try again.';
+          "Couldn't reach the server. Check your connection and try again.";
       notifyListeners();
       return false;
     }
