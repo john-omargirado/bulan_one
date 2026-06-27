@@ -4,9 +4,10 @@ class ServiceItem {
   final String id;
   final String name;
   final String description;
-  final String icon; // maps to an IconData in the widget layer
+  final String icon;
   final String category;
   final List<String> requirements;
+  final bool isInfoOnly;
 
   const ServiceItem({
     required this.id,
@@ -15,6 +16,7 @@ class ServiceItem {
     required this.icon,
     required this.category,
     required this.requirements,
+    this.isInfoOnly = false,
   });
 }
 
@@ -100,14 +102,6 @@ const List<ServiceItem> popularServices = [
     ],
   ),
   ServiceItem(
-    id: 'transport_schedule',
-    name: 'Terminal Schedule',
-    description: 'Check bus and van terminal schedules',
-    icon: 'directions_bus',
-    category: 'Transport & Travel',
-    requirements: [],
-  ),
-  ServiceItem(
     id: 'disaster_preparedness',
     name: 'Disaster Preparedness Guide',
     description: 'Safety tips and evacuation center info',
@@ -152,9 +146,9 @@ const List<ServiceCategory> serviceCategories = [
   ),
   ServiceCategory(
     name: 'Transport & Travel',
-    description: 'Public transport, terminals and travel info',
+    description: 'Routes, schedules, and fare information',
     icon: 'directions_bus',
-    serviceCount: 5,
+    serviceCount: 0,
   ),
   ServiceCategory(
     name: 'Disaster & Safety',

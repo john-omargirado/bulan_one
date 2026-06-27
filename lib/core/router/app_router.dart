@@ -13,6 +13,7 @@ import '../../features/services/service_detail_screen.dart';
 
 import '../../features/services/my_requests_screen.dart';
 import '../../features/services/category_services_screen.dart';
+import '../../features/services/transport_screen.dart';
 
 class AppRouter {
   AppRouter._();
@@ -42,6 +43,10 @@ class AppRouter {
                   GoRoute(
                     path: 'my-requests',
                     builder: (c, s) => const MyRequestsScreen(),
+                  ),
+                  GoRoute(
+                    path: 'transport',
+                    builder: (c, s) => const TransportScreen(),
                   ),
                   GoRoute(
                     path: 'category/:categoryName',

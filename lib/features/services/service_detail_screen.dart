@@ -96,72 +96,101 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
             Text(service.description, style: AppTextStyles.body),
             const SizedBox(height: AppSpacing.xl),
 
-            Text(
-              'Requirements',
-              style: AppTextStyles.sectionTitle.copyWith(fontSize: 15),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            ...service.requirements.map(
-              (req) => Padding(
-                padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+            if (service.isInfoOnly) ...[
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.md),
+                decoration: BoxDecoration(
+                  color: AppColors.tileBlue,
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: Row(
                   children: [
                     const Icon(
-                      Icons.check_circle_outline,
-                      size: 16,
-                      color: AppColors.statusResolved,
+                      Icons.info_outline,
+                      size: 18,
+                      color: AppColors.primaryNavy,
                     ),
                     const SizedBox(width: AppSpacing.sm),
-                    Text(
-                      req,
-                      style: AppTextStyles.caption.copyWith(
-                        color: AppColors.textPrimary,
+                    Expanded(
+                      child: Text(
+                        'This is reference information \u2014 no request needed. '
+                        'Contact the relevant office directly for the latest updates.',
+                        style: AppTextStyles.caption.copyWith(
+                          color: AppColors.primaryNavy,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-            const SizedBox(height: AppSpacing.xl),
-
-            Text(
-              'Additional notes (optional)',
-              style: AppTextStyles.sectionTitle.copyWith(fontSize: 15),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            TextField(
-              controller: _notesController,
-              maxLines: 3,
-              style: AppTextStyles.body,
-              decoration: InputDecoration(
-                hintText: 'Anything we should know about your request?',
-                hintStyle: AppTextStyles.caption,
-                filled: true,
-                fillColor: AppColors.surface,
-                border: const OutlineInputBorder(),
+            ] else ...[
+              Text(
+                'Requirements',
+                style: AppTextStyles.sectionTitle.copyWith(fontSize: 15),
               ),
-            ),
-            const SizedBox(height: AppSpacing.xl),
-
-            ElevatedButton(
-              onPressed: isSubmitting ? null : () => _submit(service),
-              child: isSubmitting
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
+              const SizedBox(height: AppSpacing.sm),
+              ...service.requirements.map(
+                (req) => Padding(
+                  padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.check_circle_outline,
+                        size: 16,
+                        color: AppColors.statusResolved,
                       ),
-                    )
-                  : const Text('Submit Request'),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              'Note: requirements above are listed for reference. Bring '
-              'original documents when visiting the LGU office for processing.',
-              style: AppTextStyles.tiny,
-            ),
+                      const SizedBox(width: AppSpacing.sm),
+                      Text(
+                        req,
+                        style: AppTextStyles.caption.copyWith(
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xl),
+
+              Text(
+                'Additional notes (optional)',
+                style: AppTextStyles.sectionTitle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              TextField(
+                controller: _notesController,
+                maxLines: 3,
+                style: AppTextStyles.body,
+                decoration: InputDecoration(
+                  hintText: 'Anything we should know about your request?',
+                  hintStyle: AppTextStyles.caption,
+                  filled: true,
+                  fillColor: AppColors.surface,
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xl),
+
+              ElevatedButton(
+                onPressed: isSubmitting ? null : () => _submit(service),
+                child: isSubmitting
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : const Text('Submit Request'),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                'Note: requirements above are listed for reference. Bring '
+                'original documents when visiting the LGU office for processing.',
+                style: AppTextStyles.tiny,
+              ),
+            ],
           ],
         ),
       ),

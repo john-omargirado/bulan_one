@@ -112,9 +112,14 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     _searchController.clear();
                     setState(() => _query = '');
                   }
-                  context.push(
-                    '/services/category/${Uri.encodeComponent(category.name)}',
-                  );
+
+                  if (category.name == 'Transport & Travel') {
+                    context.push('/services/transport');
+                  } else {
+                    context.push(
+                      '/services/category/${Uri.encodeComponent(category.name)}',
+                    );
+                  }
                 },
               ),
             ),

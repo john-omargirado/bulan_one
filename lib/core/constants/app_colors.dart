@@ -17,11 +17,17 @@ class AppColors {
   static const Color statusInProgress = Color(0xFFF4B400);
   static const Color statusResolved = Color(0xFF2E7D32);
 
-  static const Color tileBlue = Color(0xFFE6F0FB);
-  static const Color tileGreen = Color(0xFFE3F3E9);
-  static const Color tileAmber = Color(0xFFFCF1DC);
-  static const Color tilePurple = Color(0xFFF0EAF9);
-  static const Color tileRed = Color(0xFFFBE7E7);
+  static const Color tileBlue = Color(0xFFCFE3FA);
+  static const Color tileGreen = Color(0xFFC8EBDA);
+  static const Color tileAmber = Color(0xFFFAE4B8);
+  static const Color tilePurple = Color(0xFFDED0F0);
+  static const Color tileRed = Color(0xFFF8CACA);
+
+  static const Color iconBlue = Color(0xFF1E88E5);
+  static const Color iconGreen = Color(0xFF00897B);
+  static const Color iconAmber = Color(0xFFF9A825);
+  static const Color iconPurple = Color(0xFF7E57C2);
+  static const Color iconRed = Color(0xFFE53935);
 
   /// Semantic category colors — one consistent mapping used everywhere
   /// a category appears (Services, Reports, Explore), so the same
