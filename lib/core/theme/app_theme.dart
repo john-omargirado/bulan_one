@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
-import '../constants/app_text_styles.dart';
 
 class AppTheme {
   AppTheme._();
 
   static ThemeData get light {
+    final baseTextTheme = GoogleFonts.publicSansTextTheme();
+
     return ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: AppColors.background,
@@ -14,11 +16,16 @@ class AppTheme {
         primary: AppColors.primaryNavy,
         secondary: AppColors.accentGold,
       ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: AppColors.primaryNavy,
         foregroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
+        titleTextStyle: GoogleFonts.inter(
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.white,
@@ -40,13 +47,28 @@ class AppTheme {
             borderRadius: BorderRadius.circular(10),
           ),
           padding: const EdgeInsets.symmetric(vertical: 14),
+          textStyle: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
       ),
-      textTheme: const TextTheme(
-        headlineSmall: AppTextStyles.headline,
-        titleMedium: AppTextStyles.sectionTitle,
-        bodyMedium: AppTextStyles.body,
-        bodySmall: AppTextStyles.caption,
+      textTheme: baseTextTheme.copyWith(
+        headlineSmall: GoogleFonts.inter(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: AppColors.textPrimary,
+        ),
+        titleMedium: GoogleFonts.inter(
+          fontSize: 17,
+          fontWeight: FontWeight.w600,
+          color: AppColors.textPrimary,
+        ),
+        bodyMedium: GoogleFonts.publicSans(
+          fontSize: 14,
+          color: AppColors.textPrimary,
+        ),
+        bodySmall: GoogleFonts.publicSans(
+          fontSize: 12,
+          color: AppColors.textSecondary,
+        ),
       ),
     );
   }
