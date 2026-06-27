@@ -21,7 +21,7 @@ class PopularServiceCard extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(14),
       child: Container(
-        padding: const EdgeInsets.all(AppSpacing.md),
+        padding: const EdgeInsets.all(AppSpacing.sm),
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(14),
@@ -38,20 +38,22 @@ class PopularServiceCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             CircleAvatar(
-              radius: 20,
+              radius: 16,
               backgroundColor: AppColors.tileBlue,
               child: Icon(
                 serviceIconFor(service.icon),
                 color: AppColors.primaryNavy,
-                size: 20,
+                size: 16,
               ),
             ),
-            const SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.xs),
             Text(
               service.name,
-              style: AppTextStyles.cardTitle.copyWith(fontSize: 13),
+              style: AppTextStyles.cardTitle.copyWith(fontSize: 12),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: AppSpacing.xs),
+            const SizedBox(height: 2),
             Text(
               service.description,
               style: AppTextStyles.tiny,

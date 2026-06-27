@@ -49,7 +49,7 @@ class CategoryServicesScreen extends StatelessWidget {
                 crossAxisCount: 2,
                 mainAxisSpacing: AppSpacing.md,
                 crossAxisSpacing: AppSpacing.md,
-                childAspectRatio: 1.1,
+                childAspectRatio: 1.25,
               ),
               itemCount: services.length,
               itemBuilder: (context, index) {

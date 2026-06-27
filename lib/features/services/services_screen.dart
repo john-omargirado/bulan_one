@@ -110,7 +110,6 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     const SizedBox(height: AppSpacing.xl),
 
                     Text('Popular Services', style: AppTextStyles.sectionTitle),
-                    const SizedBox(height: AppSpacing.md),
 
                     if (_filteredServices.isEmpty)
                       Padding(
@@ -123,26 +122,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                         ),
                       )
                     else
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: AppSpacing.md,
-                              crossAxisSpacing: AppSpacing.md,
-                              childAspectRatio: 1.1,
-                            ),
-                        itemCount: _filteredServices.length,
-                        itemBuilder: (context, index) {
-                          final service = _filteredServices[index];
-                          return PopularServiceCard(
-                            service: service,
-                            onTap: () =>
-                                context.push('/services/${service.id}'),
-                          );
-                        },
-                      ),
+                      _ServiceGrid(services: _filteredServices),
 
                     const SizedBox(height: AppSpacing.xl),
                     Text(
@@ -181,5 +161,50 @@ class _ServicesScreenState extends State<ServicesScreen> {
         ),
       ),
     );
+  }
+}
+
+/// Manual 2-column grid for Popular Services, built from plain Rows
+/// instead of GridView \u2014 GridView's sliver layout was introducing
+/// unexplained leading space above the grid that no amount of
+/// Padding/SizedBox tuning could remove. This guarantees every pixel
+/// of spacing on screen is something we explicitly wrote.
+class _ServiceGrid extends StatelessWidget {
+  final List<ServiceItem> services;
+  const _ServiceGrid({required this.services});
+
+  @override
+  Widget build(BuildContext context) {
+    final rows = <Widget>[];
+    for (var i = 0; i < services.length; i += 2) {
+      final hasSecond = i + 1 < services.length;
+      rows.add(
+        Padding(
+          padding: const EdgeInsets.only(top: AppSpacing.sm),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: PopularServiceCard(
+                  service: services[i],
+                  onTap: () => context.push('/services/${services[i].id}'),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: hasSecond
+                    ? PopularServiceCard(
+                        service: services[i + 1],
+                        onTap: () =>
+                            context.push('/services/${services[i + 1].id}'),
+                      )
+                    : const SizedBox(),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    return Column(children: rows);
   }
 }
