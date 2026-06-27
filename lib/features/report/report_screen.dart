@@ -8,6 +8,7 @@ import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/date_formatter.dart';
 import '../../data/models/report.dart';
 import '../../providers/report_provider.dart';
+import '../../shared/widgets/page_hero_banner.dart';
 import 'report_detail_screen.dart';
 
 class ReportScreen extends StatelessWidget {
@@ -16,54 +17,72 @@ class ReportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Reports')),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/report/new'),
         icon: const Icon(Icons.add),
         label: const Text('Report Issue'),
       ),
-      body: Consumer<ReportProvider>(
-        builder: (context, provider, _) {
-          if (provider.myReports.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.xl),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.campaign_outlined,
-                      size: 56,
-                      color: AppColors.textSecondary,
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
-                    Text('No reports yet', style: AppTextStyles.cardTitle),
-                    const SizedBox(height: AppSpacing.sm),
-                    Text(
-                      'Tap "Report Issue" to flag flooding, road damage, '
-                      'or other community concerns.',
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.caption,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-
-          return ListView.separated(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.lg,
-              AppSpacing.lg,
-              AppSpacing.lg,
-              80,
+      body: SafeArea(
+        top: false,
+        child: Column(
+          children: [
+            const PageHeroBanner(
+              title: 'Report an Issue',
+              subtitle:
+                  'Flag flooding, road damage, or other community concerns.',
+              imageSeed: 'bulan-report-hero',
             ),
-            itemCount: provider.myReports.length,
-            separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.sm),
-            itemBuilder: (context, index) =>
-                _ReportTile(report: provider.myReports[index]),
-          );
-        },
+            Expanded(
+              child: Consumer<ReportProvider>(
+                builder: (context, provider, _) {
+                  if (provider.myReports.isEmpty) {
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(AppSpacing.xl),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.campaign_outlined,
+                              size: 56,
+                              color: AppColors.textSecondary,
+                            ),
+                            const SizedBox(height: AppSpacing.lg),
+                            Text(
+                              'No reports yet',
+                              style: AppTextStyles.cardTitle,
+                            ),
+                            const SizedBox(height: AppSpacing.sm),
+                            Text(
+                              'Tap "Report Issue" to flag flooding, road damage, '
+                              'or other community concerns.',
+                              textAlign: TextAlign.center,
+                              style: AppTextStyles.caption,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+
+                  return ListView.separated(
+                    padding: const EdgeInsets.fromLTRB(
+                      AppSpacing.lg,
+                      AppSpacing.lg,
+                      AppSpacing.lg,
+                      80,
+                    ),
+                    itemCount: provider.myReports.length,
+                    separatorBuilder: (_, _) =>
+                        const SizedBox(height: AppSpacing.sm),
+                    itemBuilder: (context, index) =>
+                        _ReportTile(report: provider.myReports[index]),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
