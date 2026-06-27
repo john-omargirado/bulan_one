@@ -119,6 +119,27 @@ const List<ServiceItem> popularServices = [
     ],
   ),
   ServiceItem(
+    id: 'scholarship_status',
+    name: 'Check Application Status',
+    description: 'Track the status of a submitted scholarship application',
+    icon: 'school',
+    category: 'Education Services',
+    requirements: [],
+    isInfoOnly: true,
+  ),
+  ServiceItem(
+    id: 'school_supplies_assistance',
+    name: 'School Supplies Assistance',
+    description: 'Request school supplies for qualified students',
+    icon: 'school',
+    category: 'Education Services',
+    requirements: [
+      'Valid ID',
+      'Certificate of enrollment',
+      'Proof of residency',
+    ],
+  ),
+  ServiceItem(
     id: 'disaster_preparedness',
     name: 'Disaster Preparedness Guide',
     description: 'Safety tips and evacuation center info',
@@ -159,7 +180,7 @@ const List<ServiceCategory> serviceCategories = [
     name: 'Education Services',
     description: 'Scholarships, programs and student assistance',
     icon: 'school',
-    serviceCount: 6,
+    serviceCount: 3,
   ),
   ServiceCategory(
     name: 'Transport & Travel',

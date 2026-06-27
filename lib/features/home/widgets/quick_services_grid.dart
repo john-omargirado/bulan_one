@@ -72,8 +72,8 @@ class QuickServicesGrid extends StatelessWidget {
       'Scholarship',
       AppColors.tileAmber,
       AppColors.iconAmber,
-      _Dest.comingSoon,
-      '',
+      _Dest.categoryPage,
+      'Education Services',
     ),
   ];
 
