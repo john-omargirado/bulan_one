@@ -142,10 +142,38 @@ const List<ServiceItem> popularServices = [
   ServiceItem(
     id: 'disaster_preparedness',
     name: 'Disaster Preparedness Guide',
-    description: 'Safety tips and evacuation center info',
+    description: 'Safety tips before, during, and after a disaster',
     icon: 'shield',
     category: 'Disaster & Safety',
     requirements: [],
+    isInfoOnly: true,
+  ),
+  ServiceItem(
+    id: 'evacuation_centers',
+    name: 'Evacuation Centers',
+    description: 'Designated evacuation sites and capacity per barangay',
+    icon: 'shield',
+    category: 'Disaster & Safety',
+    requirements: [],
+    isInfoOnly: true,
+  ),
+  ServiceItem(
+    id: 'flood_advisory',
+    name: 'Flood & Weather Advisory',
+    description: 'Current advisories from MDRRMO and PAGASA',
+    icon: 'shield',
+    category: 'Disaster & Safety',
+    requirements: [],
+    isInfoOnly: true,
+  ),
+  ServiceItem(
+    id: 'damage_report',
+    name: 'Report Disaster Damage',
+    description:
+        'Report property or infrastructure damage for assistance assessment',
+    icon: 'shield',
+    category: 'Disaster & Safety',
+    requirements: ['Valid ID', 'Photos of damage (if available)'],
   ),
 ];
 
