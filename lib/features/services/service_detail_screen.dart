@@ -83,13 +83,17 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircleAvatar(
-              radius: 28,
-              backgroundColor: AppColors.tileBlue,
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: AppColors.tileBlue,
+                borderRadius: BorderRadius.circular(14),
+              ),
               child: Icon(
                 serviceIconFor(service.icon),
                 color: AppColors.primaryNavy,
-                size: 28,
+                size: 26,
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
@@ -98,16 +102,21 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
 
             if (service.isInfoOnly) ...[
               Container(
+                width: double.infinity,
                 padding: const EdgeInsets.all(AppSpacing.md),
                 decoration: BoxDecoration(
                   color: AppColors.tileBlue,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: AppColors.primaryNavy.withValues(alpha: 0.15),
+                  ),
                 ),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Icon(
                       Icons.info_outline,
-                      size: 18,
+                      size: 20,
                       color: AppColors.primaryNavy,
                     ),
                     const SizedBox(width: AppSpacing.sm),
@@ -135,15 +144,17 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                   child: Row(
                     children: [
                       const Icon(
-                        Icons.check_circle_outline,
+                        Icons.check_circle,
                         size: 16,
                         color: AppColors.statusResolved,
                       ),
                       const SizedBox(width: AppSpacing.sm),
-                      Text(
-                        req,
-                        style: AppTextStyles.caption.copyWith(
-                          color: AppColors.textPrimary,
+                      Expanded(
+                        child: Text(
+                          req,
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.textPrimary,
+                          ),
                         ),
                       ),
                     ],
@@ -166,28 +177,42 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                   hintStyle: AppTextStyles.caption,
                   filled: true,
                   fillColor: AppColors.surface,
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Colors.black.withValues(alpha: 0.1),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: AppSpacing.xl),
 
-              ElevatedButton(
-                onPressed: isSubmitting ? null : () => _submit(service),
-                child: isSubmitting
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
-                        ),
-                      )
-                    : const Text('Submit Request'),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: isSubmitting ? null : () => _submit(service),
+                  icon: isSubmitting
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Icon(Icons.send_outlined, size: 18),
+                  label: Text(
+                    isSubmitting ? 'Submitting...' : 'Submit Request',
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                ),
               ),
               const SizedBox(height: AppSpacing.sm),
               Text(
-                'Note: requirements above are listed for reference. Bring '
-                'original documents when visiting the LGU office for processing.',
+                'Requirements above are for reference. Bring original '
+                'documents when visiting the LGU office for processing.',
                 style: AppTextStyles.tiny,
               ),
             ],

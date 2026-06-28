@@ -43,23 +43,55 @@ class CategoryServicesScreen extends StatelessWidget {
                 ),
               ),
             )
-          : GridView.builder(
+          : SingleChildScrollView(
               padding: const EdgeInsets.all(AppSpacing.lg),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: AppSpacing.md,
-                crossAxisSpacing: AppSpacing.md,
-                childAspectRatio: 1.25,
+              child: _ServiceGrid(
+                services: services,
+                onTapService: (service) =>
+                    context.push('/services/${service.id}'),
               ),
-              itemCount: services.length,
-              itemBuilder: (context, index) {
-                final service = services[index];
-                return PopularServiceCard(
-                  service: service,
-                  onTap: () => context.push('/services/${service.id}'),
-                );
-              },
             ),
     );
+  }
+}
+
+class _ServiceGrid extends StatelessWidget {
+  final List<ServiceItem> services;
+  final void Function(ServiceItem) onTapService;
+
+  const _ServiceGrid({required this.services, required this.onTapService});
+
+  @override
+  Widget build(BuildContext context) {
+    final rows = <Widget>[];
+    for (var i = 0; i < services.length; i += 2) {
+      final hasSecond = i + 1 < services.length;
+      rows.add(
+        Padding(
+          padding: const EdgeInsets.only(bottom: AppSpacing.md),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: PopularServiceCard(
+                  service: services[i],
+                  onTap: () => onTapService(services[i]),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: hasSecond
+                    ? PopularServiceCard(
+                        service: services[i + 1],
+                        onTap: () => onTapService(services[i + 1]),
+                      )
+                    : const SizedBox(),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    return Column(children: rows);
   }
 }
