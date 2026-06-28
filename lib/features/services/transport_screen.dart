@@ -39,63 +39,79 @@ class _TransportScreenState extends State<TransportScreen> {
       appBar: AppBar(title: const Text('Trips & Transport')),
       body: Column(
         children: [
-          SizedBox(
-            height: 220,
-            child: FlutterMap(
-              mapController: _mapController,
-              options: MapOptions(
-                initialCenter: LatLng(
-                  (origin.latitude + dest.latitude) / 2,
-                  (origin.longitude + dest.longitude) / 2,
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(
+              bottom: Radius.circular(0),
+            ),
+            child: SizedBox(
+              height: 220,
+              child: FlutterMap(
+                mapController: _mapController,
+                options: MapOptions(
+                  initialCenter: LatLng(
+                    (origin.latitude + dest.latitude) / 2,
+                    (origin.longitude + dest.longitude) / 2,
+                  ),
+                  initialZoom: 8,
                 ),
-                initialZoom: 8,
-              ),
-              children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.example.bulan_app',
-                ),
-                PolylineLayer(
-                  polylines: [
-                    Polyline(
-                      points: [origin, dest],
-                      color: AppColors.primaryNavy,
-                      strokeWidth: 3,
-                    ),
-                  ],
-                ),
-                MarkerLayer(
-                  markers: [
-                    Marker(
-                      point: origin,
-                      width: 36,
-                      height: 36,
-                      child: const Icon(
-                        Icons.location_on,
+                children: [
+                  TileLayer(
+                    urlTemplate:
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    userAgentPackageName: 'com.example.bulan_app',
+                  ),
+                  PolylineLayer(
+                    polylines: [
+                      Polyline(
+                        points: [origin, dest],
                         color: AppColors.primaryNavy,
-                        size: 32,
+                        strokeWidth: 3,
                       ),
-                    ),
-                    Marker(
-                      point: dest,
-                      width: 36,
-                      height: 36,
-                      child: const Icon(
-                        Icons.location_on,
-                        color: AppColors.statusResolved,
-                        size: 32,
+                    ],
+                  ),
+                  MarkerLayer(
+                    markers: [
+                      Marker(
+                        point: origin,
+                        width: 36,
+                        height: 36,
+                        child: const Icon(
+                          Icons.location_on,
+                          color: AppColors.primaryNavy,
+                          size: 32,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      Marker(
+                        point: dest,
+                        width: 36,
+                        height: 36,
+                        child: const Icon(
+                          Icons.location_on,
+                          color: AppColors.statusResolved,
+                          size: 32,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.all(AppSpacing.lg),
               children: [
-                Text('Land Routes', style: AppTextStyles.sectionTitle),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.directions_bus_outlined,
+                      size: 18,
+                      color: AppColors.primaryNavy,
+                    ),
+                    const SizedBox(width: AppSpacing.xs),
+                    Text('Land Routes', style: AppTextStyles.sectionTitle),
+                  ],
+                ),
                 const SizedBox(height: AppSpacing.sm),
                 ...landRoutes.map(
                   (r) => _RouteTile(
@@ -106,7 +122,17 @@ class _TransportScreenState extends State<TransportScreen> {
                 ),
                 const SizedBox(height: AppSpacing.lg),
 
-                Text('Water Routes', style: AppTextStyles.sectionTitle),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.directions_boat_outlined,
+                      size: 18,
+                      color: AppColors.primaryNavy,
+                    ),
+                    const SizedBox(width: AppSpacing.xs),
+                    Text('Water Routes', style: AppTextStyles.sectionTitle),
+                  ],
+                ),
                 const SizedBox(height: AppSpacing.sm),
                 ...waterRoutes.map(
                   (r) => _RouteTile(
@@ -137,45 +163,93 @@ class _RouteTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: isSelected ? AppColors.tileBlue : AppColors.surface,
-      child: ListTile(
-        onTap: onTap,
-        leading: Icon(
-          route.mode == TransportMode.water
-              ? Icons.directions_boat_outlined
-              : Icons.directions_bus_outlined,
-          color: AppColors.primaryNavy,
-        ),
-        title: Text(route.name, style: AppTextStyles.cardTitle),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(route.vehicleType, style: AppTextStyles.caption),
-            const SizedBox(height: 2),
-            Row(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+      child: Material(
+        color: isSelected ? AppColors.tileBlue : AppColors.surface,
+        borderRadius: BorderRadius.circular(14),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(14),
+          child: Container(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: isSelected
+                    ? AppColors.primaryNavy.withValues(alpha: 0.3)
+                    : Colors.black.withValues(alpha: 0.06),
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(
-                  Icons.schedule,
-                  size: 12,
-                  color: AppColors.textSecondary,
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? AppColors.primaryNavy
+                        : AppColors.tileBlue,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(
+                    route.mode == TransportMode.water
+                        ? Icons.directions_boat_outlined
+                        : Icons.directions_bus_outlined,
+                    color: isSelected ? Colors.white : AppColors.primaryNavy,
+                    size: 20,
+                  ),
                 ),
-                const SizedBox(width: 4),
-                Expanded(child: Text(route.hours, style: AppTextStyles.tiny)),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(route.name, style: AppTextStyles.cardTitle),
+                      const SizedBox(height: 2),
+                      Text(route.vehicleType, style: AppTextStyles.caption),
+                      const SizedBox(height: AppSpacing.xs),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.schedule,
+                            size: 12,
+                            color: AppColors.textSecondary,
+                          ),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(route.hours, style: AppTextStyles.tiny),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 2),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.payments_outlined,
+                            size: 12,
+                            color: AppColors.textSecondary,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(route.fare, style: AppTextStyles.tiny),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                if (isSelected)
+                  const Padding(
+                    padding: EdgeInsets.only(top: 2),
+                    child: Icon(
+                      Icons.check_circle,
+                      size: 18,
+                      color: AppColors.primaryNavy,
+                    ),
+                  ),
               ],
             ),
-            Row(
-              children: [
-                const Icon(
-                  Icons.payments_outlined,
-                  size: 12,
-                  color: AppColors.textSecondary,
-                ),
-                const SizedBox(width: 4),
-                Text(route.fare, style: AppTextStyles.tiny),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );
