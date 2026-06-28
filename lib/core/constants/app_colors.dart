@@ -7,7 +7,7 @@ class AppColors {
   static const Color primaryNavyDark = Color(0xFF071D47);
   static const Color accentGold = Color(0xFFF4B400);
 
-  static const Color background = Color(0xFFF7F7F8);
+  static const Color background = Color(0xFFF1F2F4);
   static const Color surface = Colors.white;
 
   static const Color textPrimary = Color(0xFF1A1A1A);

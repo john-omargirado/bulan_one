@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_spacing.dart';
+import '../../../core/constants/app_text_styles.dart';
 
 enum _Dest { services, categoryPage, transportMap, comingSoon }
 
 class QuickServicesGrid extends StatelessWidget {
   const QuickServicesGrid({super.key});
 
-  // The 6th element is the category name, only used when dest is
-  // _Dest.categoryPage. Empty string everywhere else.
   static const _items = [
     (
       Icons.description_outlined,
@@ -84,9 +83,9 @@ class QuickServicesGrid extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
-        mainAxisSpacing: AppSpacing.md,
-        crossAxisSpacing: AppSpacing.md,
-        childAspectRatio: 0.85,
+        mainAxisSpacing: AppSpacing.xs,
+        crossAxisSpacing: AppSpacing.xs,
+        childAspectRatio: 0.82,
       ),
       itemCount: _items.length,
       itemBuilder: (context, index) {
@@ -110,17 +109,25 @@ class QuickServicesGrid extends StatelessWidget {
             }
           },
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              CircleAvatar(
-                radius: 24,
-                backgroundColor: bgColor,
-                child: Icon(icon, color: iconColor),
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  color: bgColor,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Icon(icon, color: iconColor, size: 26),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 4),
               Text(
                 label,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 11),
+                style: AppTextStyles.tiny.copyWith(
+                  fontSize: 11,
+                  color: AppColors.textPrimary,
+                ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),

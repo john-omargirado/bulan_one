@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_spacing.dart';
 import '../../../core/constants/app_text_styles.dart';
 
@@ -10,23 +11,30 @@ class EmergencyHotlineCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.red.shade700,
+      color: AppColors.surface,
       borderRadius: BorderRadius.circular(14),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(14),
-        child: Padding(
+        child: Container(
           padding: const EdgeInsets.all(AppSpacing.md),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: Colors.red.shade700.withValues(alpha: 0.25),
+              width: 1.5,
+            ),
+          ),
           child: Row(
             children: [
               Container(
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: Colors.red.shade50,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.call, color: Colors.white, size: 22),
+                child: Icon(Icons.call, color: Colors.red.shade700, size: 22),
               ),
               const SizedBox(width: AppSpacing.md),
               Expanded(
@@ -36,21 +44,18 @@ class EmergencyHotlineCard extends StatelessWidget {
                     Text(
                       'Emergency Hotline',
                       style: AppTextStyles.cardTitle.copyWith(
-                        color: Colors.white,
-                        fontSize: 15,
+                        color: Colors.red.shade700,
                       ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       'Tap to call our 24/7 hotlines',
-                      style: AppTextStyles.caption.copyWith(
-                        color: Colors.white70,
-                      ),
+                      style: AppTextStyles.caption,
                     ),
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right, color: Colors.white),
+              Icon(Icons.chevron_right, color: Colors.red.shade700),
             ],
           ),
         ),

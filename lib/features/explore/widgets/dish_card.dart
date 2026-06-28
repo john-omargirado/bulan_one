@@ -12,19 +12,27 @@ class DishCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageUrl = 'https://picsum.photos/seed/${dish.imageSeed}/200/150';
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        PlaceholderImage(
-          imageUrl: imageUrl,
-          width: 130,
-          height: 90,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        const SizedBox(height: 6),
-        Text(dish.name, style: AppTextStyles.cardTitle.copyWith(fontSize: 12)),
-        Text(dish.description, style: AppTextStyles.tiny),
-      ],
+    return SizedBox(
+      width: 130,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          PlaceholderImage(
+            imageUrl: imageUrl,
+            width: 130,
+            height: 90,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            dish.name,
+            style: AppTextStyles.cardTitle.copyWith(fontSize: 12),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(dish.description, style: AppTextStyles.tiny),
+        ],
+      ),
     );
   }
 }

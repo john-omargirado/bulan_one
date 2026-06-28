@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Wraps a placeholder network image with a small "Sample" badge so
-/// it's never mistaken for a real, verified photo of Bulan.
-/// Swap the underlying Image.network URL for a real photo later,
-/// then simply stop using this wrapper (or set isPlaceholder: false).
 class PlaceholderImage extends StatelessWidget {
   final String imageUrl;
   final double width;
@@ -31,7 +27,8 @@ class PlaceholderImage extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
-        cacheWidth: (width * 2).round(),
+        cacheHeight: height.isFinite ? (height * 2).round() : null,
+        cacheWidth: width.isFinite ? (width * 2).round() : null,
         errorBuilder: (_, _, _) => Container(
           width: width,
           height: height,
