@@ -24,6 +24,8 @@ class PopularServiceCard extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Container(
+          height:
+              130, // fixed height \u2014 every card matches, regardless of content length
           padding: const EdgeInsets.all(AppSpacing.sm),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
@@ -31,7 +33,7 @@ class PopularServiceCard extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
                 width: 36,
@@ -54,14 +56,15 @@ class PopularServiceCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 2),
-              Text(
-                service.description,
-                style: AppTextStyles.tiny,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+              Expanded(
+                child: Text(
+                  service.description,
+                  style: AppTextStyles.tiny,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-              if (service.isInfoOnly) ...[
-                const SizedBox(height: AppSpacing.xs),
+              if (service.isInfoOnly)
                 Row(
                   children: [
                     Icon(
@@ -76,7 +79,6 @@ class PopularServiceCard extends StatelessWidget {
                     ),
                   ],
                 ),
-              ],
             ],
           ),
         ),

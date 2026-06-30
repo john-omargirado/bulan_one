@@ -17,15 +17,16 @@ import 'widgets/announcement_card.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const HeroBanner(),
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: SafeArea(
+      top: false,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const HeroBanner(),
 
               // Act Now cluster \u2014 hotline + quick services kept tight
               // together as one functional group.

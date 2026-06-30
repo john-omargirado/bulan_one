@@ -14,16 +14,34 @@ import '../../features/services/service_detail_screen.dart';
 import '../../features/services/my_requests_screen.dart';
 import '../../features/services/category_services_screen.dart';
 import '../../features/services/transport_screen.dart';
+import '../../features/onboarding/welcome_screen.dart';
 
 class AppRouter {
   AppRouter._();
 
   static final GlobalKey<NavigatorState> _rootKey = GlobalKey<NavigatorState>();
+  static bool hasSeenWelcome = false; // set once at app startup, see main.dart
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootKey,
-    initialLocation: '/home',
+    initialLocation: '/welcome',
+    redirect: (context, state) {
+      final goingToWelcome = state.matchedLocation == '/welcome';
+      if (!hasSeenWelcome && !goingToWelcome) return '/welcome';
+      if (hasSeenWelcome && goingToWelcome) return '/home';
+      return null;
+    },
     routes: [
+      GoRoute(
+        path: '/welcome',
+        parentNavigatorKey: _rootKey,
+        builder: (c, s) => WelcomeScreen(
+          onContinue: () {
+            hasSeenWelcome = true;
+            router.go('/home');
+          },
+        ),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return AppScaffold(navigationShell: navigationShell);

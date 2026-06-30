@@ -1,127 +1,76 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants/app_colors.dart';
 import 'package:provider/provider.dart';
+import '../../../core/utils/date_formatter.dart';
 import '../../../providers/notification_provider.dart';
 import '../notifications_screen.dart';
 
-/// Top hero banner with background image + gradient overlay.
-///
-/// NOTE: heroImageUrl below is a placeholder (Lorem Picsum).
-/// Replace with a real, rights-cleared photo of Bulan before
-/// presenting to the LGU — e.g. host it in Firebase Storage and
-/// swap this URL for that download link. The "SAMPLE PHOTO" badge
-/// signals this is not yet a real photo; remove it once replaced.
-class HeroBanner extends StatelessWidget {
+class HeroBanner extends StatefulWidget {
   const HeroBanner({super.key});
 
-  static const String heroImageUrl =
-      'https://picsum.photos/seed/bulan-coast/800/500';
+  @override
+  State<HeroBanner> createState() => _HeroBannerState();
+}
+
+class _HeroBannerState extends State<HeroBanner> {
+  static const _imageAsset = AssetImage('assets/images/home_header.png');
+
+  double? _aspectRatio;
+
+  @override
+  void initState() {
+    super.initState();
+    _resolveAspectRatio();
+  }
+
+  void _resolveAspectRatio() {
+    final stream = _imageAsset.resolve(const ImageConfiguration());
+    late ImageStreamListener listener;
+    listener = ImageStreamListener((info, _) {
+      if (mounted) {
+        setState(() {
+          _aspectRatio = info.image.width / info.image.height;
+        });
+      }
+      stream.removeListener(listener);
+    });
+    stream.addListener(listener);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 220,
+    return AspectRatio(
+      // Falls back to the old 300-height look while the real
+      // ratio loads, then locks to the image's true ratio.
+      aspectRatio: _aspectRatio ?? (390 / 300),
       child: Stack(
+        fit: StackFit.expand,
         children: [
-          // Background image + gradient overlay (the original Container)
-          Container(
-            width: double.infinity,
-            height: 220,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(heroImageUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    AppColors.primaryNavy.withValues(alpha: 0.85),
-                    AppColors.primaryNavyDark.withValues(alpha: 0.55),
-                  ],
-                ),
-              ),
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.nightlight_round,
-                            color: AppColors.accentGold,
-                            size: 22,
-                          ),
-                          const SizedBox(width: 6),
-                          const Text(
-                            'BULAN ONE APP',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.2,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        'Mabuhay!',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      const Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            color: Colors.white70,
-                            size: 16,
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            'Bulan, Sorsogon',
-                            style: TextStyle(color: Colors.white70),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
+          Image.asset('assets/images/home_header.png', fit: BoxFit.cover),
 
-          // SAMPLE PHOTO badge — sibling of the background Container above,
-          // not nested inside it, so it sits on top regardless of the
-          // gradient/content layers underneath.
+          // Notification bell, overlaid top-right.
           Positioned(
-            top: 12,
-            right: 12,
+            top: 4,
+            right: 4,
             child: SafeArea(
               child: Consumer<NotificationProvider>(
                 builder: (context, provider, _) {
                   return Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.notifications_outlined,
-                          color: Colors.white,
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.25),
+                          shape: BoxShape.circle,
                         ),
-                        onPressed: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const NotificationsScreen(),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.notifications_outlined,
+                            color: Colors.white,
+                          ),
+                          onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const NotificationsScreen(),
+                            ),
                           ),
                         ),
                       ),
@@ -154,6 +103,60 @@ class HeroBanner extends StatelessWidget {
                   );
                 },
               ),
+            ),
+          ),
+
+          // Greeting + location, bottom-left, the personal "you are
+          // here, right now" touch that the static branded image can't carry.
+          Positioned(
+            left: 16,
+            bottom: 12,
+            right: 16,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.35),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    '${DateFormatter.greeting()}!',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.35),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.location_on, color: Colors.white, size: 14),
+                      SizedBox(width: 4),
+                      Text(
+                        'Bulan, Sorsogon',
+                        style: TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],

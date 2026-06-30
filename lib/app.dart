@@ -35,10 +35,8 @@ class BulanApp extends StatelessWidget {
         Provider(create: (_) => HotlineRepository()),
         Provider(create: (_) => OfficeRepository()),
         Provider(create: (_) => NotificationRepository()),
+        Provider(create: (_) => ServiceRequestRepository()),
 
-        Provider(
-          create: (_) => ServiceRequestRepository(),
-        ), // <-- ADD THIS LINE
         // ChangeNotifier providers that screens actually listen to
         ChangeNotifierProvider(
           create: (ctx) =>
@@ -58,9 +56,8 @@ class BulanApp extends StatelessWidget {
           create: (ctx) => OfficeProvider(ctx.read<OfficeRepository>()),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => ServiceRequestProvider(
-            ctx.read<ServiceRequestRepository>(),
-          ), // <-- MOVED HERE
+          create: (ctx) =>
+              ServiceRequestProvider(ctx.read<ServiceRequestRepository>()),
         ),
       ],
       child: MaterialApp.router(

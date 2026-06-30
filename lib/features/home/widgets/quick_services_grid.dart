@@ -78,63 +78,74 @@ class QuickServicesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
-        mainAxisSpacing: AppSpacing.xs,
-        crossAxisSpacing: AppSpacing.xs,
-        childAspectRatio: 0.82,
-      ),
-      itemCount: _items.length,
-      itemBuilder: (context, index) {
-        final (icon, label, bgColor, iconColor, dest, categoryName) =
-            _items[index];
-        return GestureDetector(
-          onTap: () {
-            switch (dest) {
-              case _Dest.services:
-                context.go('/services');
-              case _Dest.categoryPage:
-                context.push(
-                  '/services/category/${Uri.encodeComponent(categoryName)}',
-                );
-              case _Dest.transportMap:
-                context.push('/services/transport');
-              case _Dest.comingSoon:
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('$label is coming soon')),
-                );
-            }
-          },
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 56,
-                height: 56,
-                decoration: BoxDecoration(
-                  color: bgColor,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Icon(icon, color: iconColor, size: 26),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                label,
-                textAlign: TextAlign.center,
-                style: AppTextStyles.tiny.copyWith(
-                  fontSize: 11,
-                  color: AppColors.textPrimary,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+    final rows = <Widget>[];
+    for (var i = 0; i < _items.length; i += 4) {
+      final rowItems = _items.skip(i).take(4).toList();
+      rows.add(
+        Padding(
+          padding: EdgeInsets.only(top: i == 0 ? 0 : AppSpacing.md),
+          child: Row(
+            children: rowItems
+                .map((item) => Expanded(child: _QuickServiceTile(item: item)))
+                .toList(),
           ),
-        );
+        ),
+      );
+    }
+    return Column(children: rows);
+  }
+}
+
+class _QuickServiceTile extends StatelessWidget {
+  final (IconData, String, Color, Color, _Dest, String) item;
+  const _QuickServiceTile({required this.item});
+
+  @override
+  Widget build(BuildContext context) {
+    final (icon, label, bgColor, iconColor, dest, categoryName) = item;
+    return GestureDetector(
+      onTap: () {
+        switch (dest) {
+          case _Dest.services:
+            context.go('/services');
+          case _Dest.categoryPage:
+            context.push(
+              '/services/category/${Uri.encodeComponent(categoryName)}',
+            );
+          case _Dest.transportMap:
+            context.push('/services/transport');
+          case _Dest.comingSoon:
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text('$label is coming soon')));
+        }
       },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 52,
+            height: 52,
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Icon(icon, color: iconColor, size: 24),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: AppTextStyles.tiny.copyWith(
+              fontSize: 11,
+              color: AppColors.textPrimary,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
     );
   }
 }
