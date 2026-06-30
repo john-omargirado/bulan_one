@@ -20,10 +20,13 @@ class EmergencyHotlineCard extends StatelessWidget {
           padding: const EdgeInsets.all(AppSpacing.md),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(
-              color: Colors.red.shade700.withValues(alpha: 0.25),
-              width: 1.5,
-            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.08),
+                blurRadius: 10,
+                offset: const Offset(0, 3),
+              ),
+            ],
           ),
           child: Row(
             children: [
@@ -31,10 +34,10 @@ class EmergencyHotlineCard extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: Colors.red.shade50,
+                  color: Colors.red.shade700,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.call, color: Colors.red.shade700, size: 22),
+                child: const Icon(Icons.call, color: Colors.white, size: 22),
               ),
               const SizedBox(width: AppSpacing.md),
               Expanded(

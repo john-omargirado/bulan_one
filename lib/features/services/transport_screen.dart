@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:osrm/osrm.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_spacing.dart';
@@ -17,16 +18,69 @@ class TransportScreen extends StatefulWidget {
 class _TransportScreenState extends State<TransportScreen> {
   TransportRoute? _selected;
   final MapController _mapController = MapController();
+  final Osrm _osrm = Osrm();
+
+  List<LatLng> _roadPoints = [];
+  bool _isLoadingRoute = false;
 
   TransportRoute get _route => _selected ?? landRoutes.first;
 
+  @override
+  void initState() {
+    super.initState();
+    _fetchRoute(_route);
+  }
+
+  Future<void> _fetchRoute(TransportRoute route) async {
+    setState(() => _isLoadingRoute = true);
+
+    try {
+      final result = await _osrm.route(
+        RouteRequest(
+          coordinates: [
+            (route.originLng, route.originLat),
+            (route.destLng, route.destLat),
+          ],
+          overview: OsrmOverview.full,
+          geometries: OsrmGeometries.geojson,
+        ),
+      );
+
+      final coords =
+          result.routes.first.geometry?.lineString?.coordinates ?? [];
+      setState(() {
+        _roadPoints = coords.map((c) => LatLng(c.$2, c.$1)).toList();
+        _isLoadingRoute = false;
+      });
+    } catch (_) {
+      setState(() {
+        _roadPoints = [
+          LatLng(route.originLat, route.originLng),
+          LatLng(route.destLat, route.destLng),
+        ];
+        _isLoadingRoute = false;
+      });
+    }
+  }
+
   void _selectRoute(TransportRoute route) {
     setState(() => _selected = route);
+    _fetchRoute(route);
     final center = LatLng(
       (route.originLat + route.destLat) / 2,
       (route.originLng + route.destLng) / 2,
     );
     _mapController.move(center, 8);
+  }
+
+  void _zoomIn() {
+    final camera = _mapController.camera;
+    _mapController.move(camera.center, camera.zoom + 1);
+  }
+
+  void _zoomOut() {
+    final camera = _mapController.camera;
+    _mapController.move(camera.center, camera.zoom - 1);
   }
 
   @override
@@ -39,62 +93,85 @@ class _TransportScreenState extends State<TransportScreen> {
       appBar: AppBar(title: const Text('Trips & Transport')),
       body: Column(
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              bottom: Radius.circular(0),
-            ),
-            child: SizedBox(
-              height: 220,
-              child: FlutterMap(
-                mapController: _mapController,
-                options: MapOptions(
-                  initialCenter: LatLng(
-                    (origin.latitude + dest.latitude) / 2,
-                    (origin.longitude + dest.longitude) / 2,
+          SizedBox(
+            height: 320,
+            child: Stack(
+              children: [
+                FlutterMap(
+                  mapController: _mapController,
+                  options: MapOptions(
+                    initialCenter: LatLng(
+                      (origin.latitude + dest.latitude) / 2,
+                      (origin.longitude + dest.longitude) / 2,
+                    ),
+                    initialZoom: 8,
                   ),
-                  initialZoom: 8,
+                  children: [
+                    TileLayer(
+                      urlTemplate:
+                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      userAgentPackageName: 'com.example.bulan_app',
+                    ),
+                    if (_roadPoints.isNotEmpty)
+                      PolylineLayer(
+                        polylines: [
+                          Polyline(
+                            points: _roadPoints,
+                            color: AppColors.primaryNavy,
+                            strokeWidth: 4,
+                          ),
+                        ],
+                      ),
+                    MarkerLayer(
+                      markers: [
+                        Marker(
+                          point: origin,
+                          width: 36,
+                          height: 36,
+                          child: const Icon(
+                            Icons.location_on,
+                            color: AppColors.primaryNavy,
+                            size: 32,
+                          ),
+                        ),
+                        Marker(
+                          point: dest,
+                          width: 36,
+                          height: 36,
+                          child: const Icon(
+                            Icons.location_on,
+                            color: AppColors.statusResolved,
+                            size: 32,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                children: [
-                  TileLayer(
-                    urlTemplate:
-                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    userAgentPackageName: 'com.example.bulan_app',
+                if (_isLoadingRoute)
+                  const Positioned(
+                    top: 8,
+                    right: 8,
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
                   ),
-                  PolylineLayer(
-                    polylines: [
-                      Polyline(
-                        points: [origin, dest],
-                        color: AppColors.primaryNavy,
-                        strokeWidth: 3,
-                      ),
+
+                // Zoom controls, bottom-right.
+                Positioned(
+                  bottom: 12,
+                  right: 12,
+                  child: Column(
+                    children: [
+                      _ZoomButton(icon: Icons.add, onTap: _zoomIn),
+                      const SizedBox(height: 8),
+                      _ZoomButton(icon: Icons.remove, onTap: _zoomOut),
                     ],
                   ),
-                  MarkerLayer(
-                    markers: [
-                      Marker(
-                        point: origin,
-                        width: 36,
-                        height: 36,
-                        child: const Icon(
-                          Icons.location_on,
-                          color: AppColors.primaryNavy,
-                          size: 32,
-                        ),
-                      ),
-                      Marker(
-                        point: dest,
-                        width: 36,
-                        height: 36,
-                        child: const Icon(
-                          Icons.location_on,
-                          color: AppColors.statusResolved,
-                          size: 32,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           Expanded(
@@ -145,6 +222,31 @@ class _TransportScreenState extends State<TransportScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _ZoomButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+
+  const _ZoomButton({required this.icon, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(8),
+      elevation: 3,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: SizedBox(
+          width: 36,
+          height: 36,
+          child: Icon(icon, color: AppColors.primaryNavy, size: 20),
+        ),
       ),
     );
   }

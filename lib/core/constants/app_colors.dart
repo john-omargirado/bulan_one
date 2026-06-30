@@ -3,9 +3,17 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  static const Color primaryNavy = Color(0xFF0B2C6B);
-  static const Color primaryNavyDark = Color(0xFF071D47);
-  static const Color accentGold = Color(0xFFF4B400);
+  // Primary brand blue (updated). Name kept as `primaryNavy` to avoid
+  // a project-wide rename of every AppColors.primaryNavy reference \u2014
+  // the identifier stays, the actual color value is the new brand blue.
+  static const Color primaryNavy = Color(0xFF0318DC);
+  static const Color primaryNavyDark = Color(0xFF021090);
+  static const Color accentGold = Color(0xFFFCB20F);
+
+  // New secondary accent blue. Lighter than primary \u2014 use for icon
+  // tints, borders, or backgrounds with dark text. Avoid white text
+  // directly on a solid secondaryBlue fill; contrast is borderline.
+  static const Color secondaryBlue = Color(0xFF0081EF);
 
   static const Color background = Color(0xFFF1F2F4);
   static const Color surface = Colors.white;
@@ -14,7 +22,7 @@ class AppColors {
   static const Color textSecondary = Color(0xFF6B6B6B);
 
   static const Color statusSubmitted = Color(0xFF6B6B6B);
-  static const Color statusInProgress = Color(0xFFF4B400);
+  static const Color statusInProgress = Color(0xFFFCB20F);
   static const Color statusResolved = Color(0xFF2E7D32);
 
   static const Color tileBlue = Color(0xFFCFE3FA);
